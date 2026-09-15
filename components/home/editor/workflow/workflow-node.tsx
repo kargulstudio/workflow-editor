@@ -75,7 +75,7 @@ function WorkflowNode({
       <div
         onPointerDown={(event) => onNodePointerDown(node.id, event)}
         onDoubleClick={() => onOpen(node.id)}
-        className="ease-power3-in-out relative flex cursor-grab flex-col gap-[3px] rounded-[12px] border border-(--accent)/10 bg-(--accent)/10 px-[5px] pt-[5px] pb-[7px] shadow-[0_0_0_1px_rgb(0_0_0/0.04)] backdrop-blur-[16px] transition-[border-color,box-shadow] duration-150 group-data-dragging/node:cursor-grabbing group-data-dragging/node:shadow-[0_0_0_1px_rgb(0_0_0/0.04),0_24px_48px_rgb(0_0_0/0.32),0_8px_16px_rgb(0_0_0/0.24)] group-data-selected/node:border-(--accent)/45 group-data-targeted/node:border-(--accent)/70 group-data-targeted/node:shadow-[0_0_0_1px_rgb(0_0_0/0.04),0_0_0_4px_color-mix(in_srgb,var(--accent)_16%,transparent)] group-data-[run=active]/node:border-(--accent)/80 group-data-[run=active]/node:shadow-[0_0_0_1px_rgb(0_0_0/0.04),0_0_32px_color-mix(in_srgb,var(--accent)_24%,transparent)] group-data-[run=done]/node:border-(--accent)/40"
+        className="ease-power3-in-out relative flex cursor-grab flex-col gap-[3px] rounded-[12px] border border-(--accent)/20 bg-(--accent)/10 px-[5px] pt-[5px] pb-[7px] backdrop-blur-[16px] transition-[border-color,box-shadow] duration-150 group-data-dragging/node:cursor-grabbing group-data-dragging/node:shadow-[0_24px_48px_rgb(0_0_0/0.32),0_8px_16px_rgb(0_0_0/0.24)] group-data-selected/node:border-(--accent)/45 group-data-targeted/node:border-(--accent)/70 group-data-targeted/node:shadow-[0_0_0_4px_color-mix(in_srgb,var(--accent)_16%,transparent)] group-data-[run=active]/node:border-(--accent)/80 group-data-[run=active]/node:shadow-[0_0_32px_color-mix(in_srgb,var(--accent)_24%,transparent)] group-data-[run=done]/node:border-(--accent)/40"
       >
         {runState === "active" && (
           <span
@@ -129,7 +129,6 @@ function WorkflowNode({
             {node.description}
           </span>
         </div>
-        <div className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_1px_0_rgb(255_255_255/0.03),inset_0_0_0_1px_rgb(252_253_255/0.03)]" />
       </div>
 
       {hasInput(node) && (

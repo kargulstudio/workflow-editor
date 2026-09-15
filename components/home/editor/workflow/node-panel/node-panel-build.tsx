@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Button from "@/components/_ui/button";
 import { Field, Input, Textarea, fieldSurface } from "@/components/_ui/field";
 import {
   Collapsible,
@@ -20,8 +19,6 @@ import {
   type ActionKind,
   type WorkflowNode,
 } from "@/stores/workflow-store";
-import ReloadIcon from "@/public/assets/images/home/editor/workflow/reload.svg";
-import BackspaceIcon from "@/public/assets/images/home/editor/workflow/backspace.svg";
 import ChevronIcon from "@/public/assets/images/home/editor/workflow/chevron-right.svg";
 import { ACTIONS } from "../workflow-actions";
 import NodePanelRules, { deriveNode } from "./node-panel-rules";
@@ -37,18 +34,8 @@ export default function NodePanelBuild({ node }: NodePanelBuildProps) {
   const updateNode = useWorkflowStore((state) => state.updateNode);
   const checkpoint = useWorkflowStore((state) => state.checkpoint);
   const changeKind = useWorkflowStore((state) => state.changeKind);
-  const removeNode = useWorkflowStore((state) => state.removeNode);
   const action = ACTIONS[node.kind];
   const { Icon } = action;
-
-  const resetNode = () => {
-    checkpoint();
-    updateNode(node.id, {
-      title: action.title,
-      description: action.description,
-      rules: undefined,
-    });
-  };
 
   const changeRules = (rules: Record<string, string>) => {
     updateNode(node.id, { rules, ...deriveNode(node, rules) });
@@ -56,29 +43,9 @@ export default function NodePanelBuild({ node }: NodePanelBuildProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <span className="text-[16px] leading-6 font-[550] text-white text-shadow-[0_-1px_0.25px_rgb(0_0_0/0.32)]">
-          Details
-        </span>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="brick"
-            size="icon-lg"
-            aria-label="Reset step to defaults"
-            onClick={resetNode}
-          >
-            <ReloadIcon aria-hidden className="size-5" />
-          </Button>
-          <Button
-            variant="brick"
-            size="icon-lg"
-            aria-label="Delete step"
-            onClick={() => removeNode(node.id)}
-          >
-            <BackspaceIcon aria-hidden className="size-5 text-[#e33e31]" />
-          </Button>
-        </div>
-      </div>
+      <span className="text-[16px] leading-6 font-[550] text-white text-shadow-[0_-1px_0.25px_rgb(0_0_0/0.32)]">
+        Details
+      </span>
 
       <div className="flex flex-col gap-4">
         <Field label="Type">
