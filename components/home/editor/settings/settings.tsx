@@ -84,7 +84,7 @@ export default function Settings() {
       ref={scrollRef}
       className="min-h-0 flex-1 overflow-y-auto [scrollbar-width:thin]"
     >
-      <div className="mx-auto flex w-full max-w-[1358px] flex-col gap-10 px-4 pt-8 pb-16 sm:px-8 xl:px-20">
+      <div className="mx-auto flex w-full max-w-[1760px] flex-col gap-10 px-4 pt-8 pb-16 sm:px-8 xl:px-20">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div className="flex flex-col gap-1.5">
             <span

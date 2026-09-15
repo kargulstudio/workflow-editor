@@ -68,6 +68,8 @@ const INSPECTOR_INSET = 512;
 
 const { getState } = useWorkflowStore;
 
+let handledFitRequest = 0;
+
 function trackPointer(
   onMove: (event: PointerEvent) => void,
   onEnd: PointerEnd,
@@ -630,11 +632,10 @@ export default function WorkflowCanvas() {
   );
 
   const fitRequest = useWorkflowStore((state) => state.fitRequest);
-  const handledFit = useRef(fitRequest);
 
   useEffect(() => {
-    if (handledFit.current === fitRequest) return;
-    handledFit.current = fitRequest;
+    if (handledFitRequest === fitRequest) return;
+    handledFitRequest = fitRequest;
     fitView({ animate: false, onlyIfNeeded: true });
   }, [fitRequest, fitView]);
 
