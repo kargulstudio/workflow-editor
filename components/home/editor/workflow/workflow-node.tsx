@@ -19,7 +19,7 @@ type WorkflowNodeProps = {
   onNodePointerDown: (id: string, event: ReactPointerEvent) => void;
   onHandlePointerDown: (id: string, event: ReactPointerEvent) => void;
   onOpen: (id: string) => void;
-  onDelete: () => void;
+  editing: boolean;
 };
 
 const handleClass =
@@ -35,7 +35,7 @@ function WorkflowNode({
   onNodePointerDown,
   onHandlePointerDown,
   onOpen,
-  onDelete,
+  editing,
 }: WorkflowNodeProps) {
   const ref = useRef<HTMLDivElement>(null);
   const action = ACTIONS[node.kind];
@@ -145,13 +145,13 @@ function WorkflowNode({
         )}
       />
 
-      {selected && !dragging && (
+      {selected && !dragging && !editing && (
         <div
           onPointerDown={(event) => event.stopPropagation()}
           className="ease-power3-out absolute -top-9 right-0 transition-[opacity,translate] duration-150 starting:translate-y-1 starting:opacity-0"
         >
-          <Button variant="field" size="xs" onClick={onDelete}>
-            Delete
+          <Button variant="field" size="xs" onClick={() => onOpen(node.id)}>
+            Edit
           </Button>
         </div>
       )}

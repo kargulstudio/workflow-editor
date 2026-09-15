@@ -154,6 +154,9 @@ export default function WorkflowCanvas() {
   const select = useWorkflowStore((state) => state.select);
   const removeSelection = useWorkflowStore((state) => state.removeSelection);
   const run = useWorkflowStore((state) => state.run);
+  const inspectorNodeId = useWorkflowStore(
+    (state) => state.inspector?.nodeId ?? null,
+  );
 
   const [panelOpen, setPanelOpen] = useState(true);
   const [palette, setPalette] = useState<PaletteDrag | null>(null);
@@ -791,7 +794,7 @@ export default function WorkflowCanvas() {
             onNodePointerDown={handleNodePointerDown}
             onHandlePointerDown={handleHandlePointerDown}
             onOpen={openNode}
-            onDelete={removeSelection}
+            editing={inspectorNodeId === node.id}
           />
         ))}
       </div>
