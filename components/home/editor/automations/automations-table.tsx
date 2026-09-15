@@ -18,7 +18,7 @@ type AutomationsTableProps = {
 };
 
 const columns =
-  "grid grid-cols-[minmax(180px,180fr)_minmax(350px,350fr)_minmax(160px,160fr)_minmax(180px,180fr)_minmax(200px,200fr)_minmax(224px,224fr)]";
+  "grid grid-cols-[minmax(196px,196fr)_minmax(290px,290fr)_minmax(128px,128fr)_minmax(180px,180fr)_minmax(196px,196fr)_minmax(210px,210fr)]";
 
 const cellDivider =
   "bg-[linear-gradient(to_right,rgb(0_0_0/0.12)_0,rgb(0_0_0/0.12)_1px,rgb(255_255_255/0.018)_1px,rgb(255_255_255/0.018)_2px,transparent_2px)]";
@@ -46,7 +46,7 @@ export default function AutomationsTable({
       <div
         role="table"
         aria-label="Automations"
-        className="min-w-[1294px] overflow-hidden rounded-[12px] bg-[#111114]"
+        className="min-w-[1200px] overflow-hidden rounded-[12px] bg-[#111114]"
       >
         <div role="rowgroup">
           <div role="row" className={`${columns} h-11 bg-[#16161a]`}>
@@ -60,7 +60,7 @@ export default function AutomationsTable({
               <span
                 key={label}
                 role="columnheader"
-                className="flex items-center px-5 text-[14px] leading-6 font-medium text-white/50 text-shadow-[0_-1px_0.25px_rgb(0_0_0/0.32)]"
+                className="flex items-center truncate px-5 text-[14px] leading-6 font-medium whitespace-nowrap text-white/50 text-shadow-[0_-1px_0.25px_rgb(0_0_0/0.32)]"
               >
                 {label}
               </span>

@@ -33,7 +33,7 @@ export default function Automations() {
 
   return (
     <div className="min-h-0 flex-1 overflow-y-auto">
-      <div className="flex flex-col gap-10 p-4 sm:p-8">
+      <div className="mx-auto box-content flex max-w-[1200px] flex-col gap-10 p-4 sm:p-8">
         <div className="flex flex-col gap-3">
           <IconBadge>
             <BoltIcon className="size-[22px] text-white" />
