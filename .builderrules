@@ -1,0 +1,8 @@
+1. use the section sturcture that is used in ExampleSection.tsx file.
+2. make sure you don't any extra font styles to p, h1, h2 ,h3 because i have already made them global.css
+3. please use button component whenever there is a button
+4. always use em for max-width for headings, paragraph tags just do max-width-px/font-size and use em
+5. always prefer tailwind css
+6. use tailwind divide class for border based stacked elements
+7. don't add any type of comments
+

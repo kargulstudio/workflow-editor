@@ -1,0 +1,7 @@
+export const closeIcon = `<svg aria-hidden="true" class="pswp__icn" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.9999 4.00007L4 21M3.99993 4L20.9999 20.9999" stroke="white" stroke-width="2"/></svg>`;
+
+export const zoomIcon = `<svg aria-hidden="true" class="pswp__icn" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11.3947" cy="11.3947" r="9.39474" stroke="white" stroke-width="2"/><path d="M18.5789 18.5789L23 23" stroke="white" stroke-width="2"/><path d="M11.35 7.53027C11.35 9.92583 11.35 14.8196 11.35 15.2303" stroke="white" stroke-width="2"/><path d="M7.50029 11.3801C9.89585 11.3801 14.7896 11.3801 15.2003 11.3801" stroke="white" stroke-width="2"/></svg>`;
+
+export const leftIcon = `<svg aria-hidden="true" class="pswp__icn" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="20" fill="#232323"/><path d="M23.67 27.2858L21.9853 28.9705L13 19.9853L21.9853 11L23.67 12.6847L16.3695 19.9853L23.67 27.2858Z" fill="white"/></svg>`;
+
+export const rightIcon = `<svg aria-hidden="true" class="pswp__icn" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="20" fill="#232323"/><path d="M16.33 12.7142L18.0147 11.0295L27 20.0147L18.0147 29L16.33 27.3153L23.6305 20.0147L16.33 12.7142Z" fill="white"/></svg>`;
