@@ -1,6 +1,5 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import Button from "@/components/_ui/button";
 import Tag, { type TagTone } from "@/components/_ui/tag";
@@ -10,14 +9,13 @@ import type { AutomationStatus } from "@/data/automations";
 import ToolbarIcon from "@/public/assets/images/home/editor/topbar/toolbar.svg";
 import ChevronIcon from "@/public/assets/images/home/editor/topbar/chevron.svg";
 import SearchIcon from "@/public/assets/images/home/editor/topbar/search.svg";
-import SaveIcon from "@/public/assets/images/home/editor/topbar/save.svg";
 import PlayIcon from "@/public/assets/images/home/editor/topbar/play.svg";
 import HelpIcon from "@/public/assets/images/home/editor/topbar/help.svg";
 import ShareIcon from "@/public/assets/images/home/editor/topbar/share.svg";
 import PencilIcon from "@/public/assets/images/home/editor/topbar/pencil.svg";
 import ProfileMenu from "./profile-menu/profile-menu";
 import EditorTitle from "./editor-title";
-import { workflowIssues } from "./workflow/workflow-checks";
+import McpConnect from "./mcp-connect/mcp-connect";
 import { startRun, stopRun } from "./workflow/workflow-run";
 
 export const STATUS_TONE: Record<AutomationStatus, TagTone> = {
@@ -79,73 +77,11 @@ function AccountActions({ avatarSrc }: EditorTopbarProps) {
 }
 
 function WorkflowActions() {
-  const nodes = useWorkflowStore((state) => state.nodes);
-  const edges = useWorkflowStore((state) => state.edges);
   const running = useWorkflowStore((state) => state.run.status === "running");
-  const { sendCommand, openInspector } = useWorkflowStore.getState();
-
-  const signature = useMemo(
-    () =>
-      JSON.stringify([
-        nodes.map((node) => [node.id, node.kind, node.title, node.description]),
-        edges.map((edge) => [edge.source, edge.port, edge.target]),
-      ]),
-    [nodes, edges],
-  );
-  const [savedSignature, setSavedSignature] = useState(signature);
-  const dirty = signature !== savedSignature;
-
-  const save = useCallback(() => {
-    setSavedSignature(signature);
-    const issues = workflowIssues(nodes, edges);
-    const first = issues[0];
-    if (first) {
-      toast("Workflow saved", {
-        description:
-          issues.length === 1
-            ? first.title
-            : `${issues.length} things to fix · ${first.title}`,
-        action: first.nodeId
-          ? {
-              label: "Show me",
-              onClick: () => {
-                openInspector(first.nodeId as string);
-                sendCommand("focus", first.nodeId as string);
-              },
-            }
-          : undefined,
-      });
-      return;
-    }
-    toast.success("Workflow saved", {
-      description: `${nodes.length} steps · ${edges.length} connections · ready to run`,
-    });
-  }, [signature, nodes, edges, openInspector, sendCommand]);
-
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== "s" || !(event.metaKey || event.ctrlKey)) return;
-      event.preventDefault();
-      if (dirty) save();
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [dirty, save]);
 
   return (
     <>
-      <Button
-        variant="field"
-        size="field"
-        disabled={!dirty}
-        onClick={save}
-        aria-keyshortcuts="Meta+S"
-        className="hidden md:inline-flex"
-      >
-        <SaveIcon aria-hidden className="size-5 text-white/55" />
-        <span className="pr-1">{dirty ? "Save" : "Saved"}</span>
-      </Button>
-
+      <McpConnect />
       <Button
         variant="accent"
         size="field"

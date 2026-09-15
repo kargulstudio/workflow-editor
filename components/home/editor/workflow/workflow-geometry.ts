@@ -20,6 +20,7 @@ const BRANCH_END = 87;
 const OUT_END = 56;
 const ELBOW = 40;
 const CORNER = 8;
+const STRAIGHT = 28;
 
 export function estimateHeight(node: WorkflowNode) {
   return node.description.length > 56 ? 145 : 121;
@@ -116,7 +117,7 @@ export function freePlacement(
 export function routePoints(source: Point, target: Point): Point[] {
   const drop = target.y - source.y;
   if (drop >= CORNER * 3) {
-    if (Math.abs(target.x - source.x) < 0.5) return [source, target];
+    if (Math.abs(target.x - source.x) < STRAIGHT) return [source, target];
     const elbow = source.y + Math.min(ELBOW, drop / 2);
     return [
       source,
