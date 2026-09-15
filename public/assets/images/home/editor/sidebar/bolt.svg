@@ -1,0 +1,17 @@
+<svg overflow="visible" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Bolt Fill Streamline Rounded Fill - Material Symbols" filter="url(#filter0_d_0_184)">
+<path id="Vector" d="M7.50005 12.5H4.52089C4.27089 12.5 4.08685 12.3889 3.96879 12.1667C3.85074 11.9445 3.8681 11.7292 4.02088 11.5208L11.0626 1.35417C11.1736 1.2014 11.3126 1.09723 11.4792 1.04167C11.6459 0.98612 11.8126 0.993066 11.9792 1.06251C12.1459 1.13195 12.2778 1.24307 12.3751 1.39584C12.4723 1.54862 12.507 1.71529 12.4792 1.89584L11.6667 8.33333H15.3334C15.5973 8.33333 15.7848 8.45142 15.8959 8.6875C16.007 8.92362 15.9792 9.14583 15.8126 9.35417L8.08339 18.625C7.97226 18.7639 7.82989 18.8542 7.6563 18.8958C7.48268 18.9375 7.31947 18.9236 7.16672 18.8542C7.01393 18.7847 6.89239 18.6736 6.80214 18.5208C6.71184 18.3681 6.68059 18.2014 6.70839 18.0208L7.50005 12.5Z" fill="currentColor"/>
+</g>
+<defs>
+<filter id="filter0_d_0_184" x="-2" y="-1" width="24" height="24" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="1"/>
+<feGaussianBlur stdDeviation="1"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_184"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_184" result="shape"/>
+</filter>
+</defs>
+</svg>
