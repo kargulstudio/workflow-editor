@@ -1,17 +1,5 @@
 <svg overflow="visible" width="16.492" height="16.492" viewBox="5.693 0.295 16.492 16.492" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="Sparkles Streamline Tabler Line" filter="url(#filter0_d_0_319)">
+<g id="Sparkles Streamline Tabler Line">
 <path id="Vector" d="M16.6885 12.6636C17.053 12.6636 17.4026 12.8084 17.6603 13.0661C17.918 13.3239 18.0628 13.6735 18.0628 14.038C18.0628 13.6735 18.2076 13.3239 18.4654 13.0661C18.7231 12.8084 19.0727 12.6636 19.4372 12.6636C19.0727 12.6636 18.7231 12.5188 18.4654 12.2611C18.2076 12.0033 18.0628 11.6538 18.0628 11.2893C18.0628 11.6538 17.918 12.0033 17.6603 12.2611C17.4026 12.5188 17.053 12.6636 16.6885 12.6636ZM16.6885 4.41754C17.053 4.41754 17.4026 4.56234 17.6603 4.82008C17.918 5.07782 18.0628 5.42739 18.0628 5.79188C18.0628 5.42739 18.2076 5.07782 18.4654 4.82008C18.7231 4.56234 19.0727 4.41754 19.4372 4.41754C19.0727 4.41754 18.7231 4.27274 18.4654 4.015C18.2076 3.75726 18.0628 3.40769 18.0628 3.04319C18.0628 3.40769 17.918 3.75726 17.6603 4.015C17.4026 4.27274 17.053 4.41754 16.6885 4.41754ZM11.8783 12.6636C11.8783 11.5701 12.3127 10.5214 13.0859 9.74819C13.8591 8.97497 14.9078 8.54058 16.0013 8.54058C14.9078 8.54058 13.8591 8.10619 13.0859 7.33297C12.3127 6.55975 11.8783 5.51104 11.8783 4.41754C11.8783 5.51104 11.4439 6.55975 10.6707 7.33297C9.89744 8.10619 8.84873 8.54058 7.75524 8.54058C8.84873 8.54058 9.89744 8.97497 10.6707 9.74819C11.4439 10.5214 11.8783 11.5701 11.8783 12.6636Z" fill="currentColor" stroke="currentColor" stroke-width="1.37435" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
-<defs>
-<filter id="filter0_d_0_319" x="-1.37455" y="-2.0615" width="30.6283" height="30.6283" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="4.71204"/>
-<feGaussianBlur stdDeviation="3.53403"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0.388235 0 0 0 0 0.34902 0 0 0 0 0.941176 0 0 0 0.4 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_319"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_319" result="shape"/>
-</filter>
-</defs>
 </svg>

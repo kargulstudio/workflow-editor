@@ -222,6 +222,10 @@
     scrollbar-color: rgb(255 255 255 / 0.12) transparent;
   }
 
+  svg[overflow="visible"] {
+    overflow: visible;
+  }
+
   *:hover {
     scrollbar-color: rgb(255 255 255 / 0.2) transparent;
   }

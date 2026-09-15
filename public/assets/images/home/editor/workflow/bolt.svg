@@ -1,17 +1,5 @@
 <svg overflow="visible" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="Bolt Fill Streamline Rounded Fill - Material Symbols" filter="url(#filter0_d_0_105)">
+<g id="Bolt Fill Streamline Rounded Fill - Material Symbols">
 <path id="Vector" d="M9.75635 7.40613L9.6499 8.24988H13.395L6.80322 16.1552L7.49268 11.3563L7.61572 10.4999H4.43994L10.4624 1.80359L9.75635 7.40613Z" stroke="currentColor" stroke-width="1.5"/>
 </g>
-<defs>
-<filter id="filter0_d_0_105" x="-1.8" y="-0.9" width="21.6" height="21.6" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="0.9"/>
-<feGaussianBlur stdDeviation="0.9"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_105"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_105" result="shape"/>
-</filter>
-</defs>
 </svg>
