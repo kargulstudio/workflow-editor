@@ -69,7 +69,7 @@ function WorkflowNode({
     >
       <div
         onPointerDown={(event) => onNodePointerDown(node.id, event)}
-        className="ease-power3-in-out relative flex cursor-grab flex-col gap-[3px] rounded-[12px] border border-(--accent)/10 bg-(--accent)/10 px-[5px] pt-[5px] pb-[7px] shadow-[0_0_0_1px_rgb(0_0_0/0.04)] backdrop-blur-[4px] transition-[border-color,box-shadow] duration-150 group-data-dragging/node:cursor-grabbing group-data-dragging/node:shadow-[0_0_0_1px_rgb(0_0_0/0.04),0_24px_48px_rgb(0_0_0/0.32),0_8px_16px_rgb(0_0_0/0.24)] group-data-selected/node:border-(--accent)/45 group-data-targeted/node:border-(--accent)/70 group-data-targeted/node:shadow-[0_0_0_1px_rgb(0_0_0/0.04),0_0_0_4px_color-mix(in_srgb,var(--accent)_16%,transparent)]"
+        className="ease-power3-in-out relative flex cursor-grab flex-col gap-[3px] rounded-[12px] border border-(--accent)/10 bg-(--accent)/10 px-[5px] pt-[5px] pb-[7px] shadow-[0_0_0_1px_rgb(0_0_0/0.04)] backdrop-blur-[16px] transition-[border-color,box-shadow] duration-150 group-data-dragging/node:cursor-grabbing group-data-dragging/node:shadow-[0_0_0_1px_rgb(0_0_0/0.04),0_24px_48px_rgb(0_0_0/0.32),0_8px_16px_rgb(0_0_0/0.24)] group-data-selected/node:border-(--accent)/45 group-data-targeted/node:border-(--accent)/70 group-data-targeted/node:shadow-[0_0_0_1px_rgb(0_0_0/0.04),0_0_0_4px_color-mix(in_srgb,var(--accent)_16%,transparent)]"
       >
         <div className="flex h-9 items-center px-1 py-1.5">
           <div className="flex shrink-0 items-center pl-1">

@@ -68,7 +68,7 @@ function BranchLabel({ point, port }: { point: Point; port: PortId }) {
   return (
     <span
       style={positionStyle(point)}
-      className="pointer-events-none absolute [top:var(--point-y)] [left:var(--point-x)] flex h-5 -translate-x-1/2 -translate-y-1/2 items-center overflow-clip rounded-[21px] bg-[#75ffd3]/15 bg-[linear-gradient(178deg,rgb(255_255_255/0.02)_3.85%,rgb(255_255_255/0.014)_28%,rgb(255_255_255/0.008)_49%,rgb(255_255_255/0)_75%)] px-[9px] text-[12px] leading-6 font-bold text-[#75ffd3] shadow-[0_1px_2px_rgb(0_0_0/0.08),0_1px_0_rgb(0_0_0/0.12),0_0_0_1px_rgb(0_0_0/0.16),inset_0_1px_0_rgb(255_255_255/0.04),inset_0_0_0_1px_rgb(253_253_255/0.04)] backdrop-blur-[2px] text-shadow-[0_-1px_0.25px_rgb(0_0_0/0.32)]"
+      className="pointer-events-none absolute [top:var(--point-y)] [left:var(--point-x)] flex h-5 -translate-x-1/2 -translate-y-1/2 items-center overflow-clip rounded-[21px] bg-[#75ffd3]/15 bg-[linear-gradient(178deg,rgb(255_255_255/0.02)_3.85%,rgb(255_255_255/0.014)_28%,rgb(255_255_255/0.008)_49%,rgb(255_255_255/0)_75%)] px-[9px] text-[12px] leading-6 font-bold text-[#75ffd3] shadow-[0_1px_2px_rgb(0_0_0/0.08),0_1px_0_rgb(0_0_0/0.12),0_0_0_1px_rgb(0_0_0/0.16),inset_0_1px_0_rgb(255_255_255/0.04),inset_0_0_0_1px_rgb(253_253_255/0.04)] backdrop-blur-[4px] text-shadow-[0_-1px_0.25px_rgb(0_0_0/0.32)]"
     >
       {labelText[port]}
     </span>
