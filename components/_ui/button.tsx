@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { clsx } from "clsx";
+import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import type { ComponentProps } from "react";
 
@@ -30,6 +31,13 @@ export const buttonVariants = cva(
           raisedShadow,
           "ease-power3-in-out rounded-[8px] border border-black bg-linear-to-t from-[#1b1b20] via-[#1b1b20] via-50% to-[#27272e] text-white transition-colors duration-150 hover:from-[#1f1f25] hover:via-[#1f1f25] hover:to-[#2d2d35] disabled:text-white/30",
         ),
+        brick: clsx(
+          raisedShadow,
+          "ease-power3-in-out rounded-[10px] bg-[#1b1b20] text-white transition-colors duration-150 hover:bg-[#222228] active:bg-[#18181c] disabled:text-white/30",
+        ),
+        bare: "",
+        crumb:
+          "ease-power3-in-out rounded-[6px] font-normal text-[#fcfdff]/30 transition-colors duration-150 text-shadow-[0_-1px_0.25px_rgb(0_0_0/0.32)] hover:text-white/70",
         round: clsx(
           raisedShadow,
           "ease-power3-in-out rounded-full border border-black bg-[#1b1b20] text-white transition-[background-color] duration-150 hover:bg-[#222228] active:bg-[#18181c]",
@@ -43,6 +51,11 @@ export const buttonVariants = cva(
         lg: "px-2 py-1 text-[15px] sm:px-4 sm:py-2 sm:text-lg",
         xs: "h-6 px-2 text-[12px] leading-6",
         field: "h-8 gap-2 pr-2 pl-1.5 text-[14px] leading-6",
+        block: "h-9 w-full gap-2 px-2 text-[14px] leading-6",
+        crumb: "-mx-1 h-6 px-1 text-[14px] leading-6",
+        bare: "",
+        title:
+          "h-6 max-w-full px-1.5 text-[14px] leading-6 font-[550] text-[#fcfdff]/90",
         icon: "size-8",
         "icon-lg": "size-9",
         tab: "px-4 py-1.5 text-[14px] leading-5 tracking-[-0.2596px]",
@@ -68,7 +81,7 @@ export default function Button({
   children,
   ...props
 }: ButtonProps) {
-  const classes = clsx(buttonVariants({ variant, size }), className);
+  const classes = cn(buttonVariants({ variant, size }), className);
 
   if (href) {
     return (

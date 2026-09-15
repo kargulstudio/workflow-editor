@@ -14,9 +14,11 @@ type WorkflowNodeProps = {
   selected: boolean;
   targeted: boolean;
   dragging: boolean;
+  runState: "active" | "done" | "idle";
   onMeasure: (id: string, height: number) => void;
   onNodePointerDown: (id: string, event: ReactPointerEvent) => void;
   onHandlePointerDown: (id: string, event: ReactPointerEvent) => void;
+  onOpen: (id: string) => void;
   onDelete: () => void;
 };
 
@@ -28,9 +30,11 @@ function WorkflowNode({
   selected,
   targeted,
   dragging,
+  runState,
   onMeasure,
   onNodePointerDown,
   onHandlePointerDown,
+  onOpen,
   onDelete,
 }: WorkflowNodeProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -54,6 +58,7 @@ function WorkflowNode({
       data-selected={selected || undefined}
       data-targeted={targeted || undefined}
       data-dragging={dragging || undefined}
+      data-run={runState === "idle" ? undefined : runState}
       style={
         {
           "--node-x": `${node.x}px`,
@@ -69,8 +74,15 @@ function WorkflowNode({
     >
       <div
         onPointerDown={(event) => onNodePointerDown(node.id, event)}
-        className="ease-power3-in-out relative flex cursor-grab flex-col gap-[3px] rounded-[12px] border border-(--accent)/10 bg-(--accent)/10 px-[5px] pt-[5px] pb-[7px] shadow-[0_0_0_1px_rgb(0_0_0/0.04)] backdrop-blur-[16px] transition-[border-color,box-shadow] duration-150 group-data-dragging/node:cursor-grabbing group-data-dragging/node:shadow-[0_0_0_1px_rgb(0_0_0/0.04),0_24px_48px_rgb(0_0_0/0.32),0_8px_16px_rgb(0_0_0/0.24)] group-data-selected/node:border-(--accent)/45 group-data-targeted/node:border-(--accent)/70 group-data-targeted/node:shadow-[0_0_0_1px_rgb(0_0_0/0.04),0_0_0_4px_color-mix(in_srgb,var(--accent)_16%,transparent)]"
+        onDoubleClick={() => onOpen(node.id)}
+        className="ease-power3-in-out relative flex cursor-grab flex-col gap-[3px] rounded-[12px] border border-(--accent)/10 bg-(--accent)/10 px-[5px] pt-[5px] pb-[7px] shadow-[0_0_0_1px_rgb(0_0_0/0.04)] backdrop-blur-[16px] transition-[border-color,box-shadow] duration-150 group-data-dragging/node:cursor-grabbing group-data-dragging/node:shadow-[0_0_0_1px_rgb(0_0_0/0.04),0_24px_48px_rgb(0_0_0/0.32),0_8px_16px_rgb(0_0_0/0.24)] group-data-selected/node:border-(--accent)/45 group-data-targeted/node:border-(--accent)/70 group-data-targeted/node:shadow-[0_0_0_1px_rgb(0_0_0/0.04),0_0_0_4px_color-mix(in_srgb,var(--accent)_16%,transparent)] group-data-[run=active]/node:border-(--accent)/80 group-data-[run=active]/node:shadow-[0_0_0_1px_rgb(0_0_0/0.04),0_0_32px_color-mix(in_srgb,var(--accent)_24%,transparent)] group-data-[run=done]/node:border-(--accent)/40"
       >
+        {runState === "active" && (
+          <span
+            aria-hidden
+            className="animate-run-ping pointer-events-none absolute -inset-px rounded-[inherit] shadow-[0_0_0_2px_color-mix(in_srgb,var(--accent)_60%,transparent)] motion-reduce:animate-none"
+          />
+        )}
         <div className="flex h-9 items-center px-1 py-1.5">
           <div className="flex shrink-0 items-center pl-1">
             <Icon aria-hidden className="size-[18px] text-(--accent)" />
@@ -80,9 +92,24 @@ function WorkflowNode({
               {action.label}
             </span>
           </div>
-          <div className="ease-power3-in-out flex items-center justify-end pr-0.5 opacity-0 transition-opacity duration-150 group-hover/node:opacity-100">
-            <DragIcon aria-hidden className="size-4 text-white/60" />
-          </div>
+          {runState === "idle" ? (
+            <div className="ease-power3-in-out flex items-center justify-end pr-0.5 opacity-0 transition-opacity duration-150 group-hover/node:opacity-100">
+              <DragIcon aria-hidden className="size-4 text-white/60" />
+            </div>
+          ) : (
+            <span
+              key={runState}
+              className="ease-power3-out animate-fade-in mr-1.5 flex h-5 items-center gap-1.5 rounded-full bg-(--accent)/12 px-2 text-[12px] leading-5 font-[550] text-(--accent)"
+            >
+              <span
+                className={clsx(
+                  "size-1.5 rounded-full bg-(--accent)",
+                  runState === "active" && "animate-pulse",
+                )}
+              />
+              {runState === "active" ? "Running" : "Done"}
+            </span>
+          )}
           {node.kind === "trigger" && (
             <span className="relative ml-0 flex h-5 items-center overflow-clip rounded-[21px] bg-[#6f3fff]/15 bg-[linear-gradient(176.7deg,rgb(255_255_255/0.02)_3.85%,rgb(255_255_255/0.014)_28%,rgb(255_255_255/0.008)_49%,rgb(255_255_255/0)_75%)] px-[9px] text-[12px] leading-6 font-bold text-[#ab8fff] shadow-[inset_0_1px_0_rgb(255_255_255/0.08),inset_0_0_0_1px_rgb(253_253_255/0.04)] text-shadow-[0_-1px_0.25px_rgb(0_0_0/0.32)]">
               IF

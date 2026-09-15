@@ -1,60 +1,306 @@
+"use client";
+
+import { toast } from "sonner";
 import Button from "@/components/_ui/button";
+import Tag, { type TagTone } from "@/components/_ui/tag";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/_ui/shadcn/dropdown-menu";
+import { STATUS_LABEL, useAppStore, type EditorTab } from "@/stores/app-store";
+import { useWorkflowStore } from "@/stores/workflow-store";
+import type { AutomationStatus } from "@/data/automations";
 import ToolbarIcon from "@/public/assets/images/home/editor/topbar/toolbar.svg";
 import ChevronIcon from "@/public/assets/images/home/editor/topbar/chevron.svg";
 import SearchIcon from "@/public/assets/images/home/editor/topbar/search.svg";
 import ControlIcon from "@/public/assets/images/home/editor/topbar/control.svg";
 import PlayIcon from "@/public/assets/images/home/editor/topbar/play.svg";
+import HelpIcon from "@/public/assets/images/home/editor/topbar/help.svg";
+import ShareIcon from "@/public/assets/images/home/editor/topbar/share.svg";
+import PencilIcon from "@/public/assets/images/home/editor/topbar/pencil.svg";
+import ProfileMenu from "./profile-menu/profile-menu";
+import EditorTitle from "./editor-title";
+import { ACTIONS } from "./workflow/workflow-actions";
+import { startRun, stopRun } from "./workflow/workflow-run";
 
-export default function EditorTopbar() {
+export const STATUS_TONE: Record<AutomationStatus, TagTone> = {
+  draft: "violet",
+  running: "green",
+  paused: "red",
+};
+
+const TAB_LABEL: Record<EditorTab, string> = {
+  overview: "Overview",
+  workflow: "Workflow",
+  settings: "Settings",
+  export: "Export",
+};
+
+type EditorTopbarProps = {
+  avatarSrc: string;
+};
+
+function AccountActions({ avatarSrc }: EditorTopbarProps) {
+  return (
+    <>
+      <Button
+        variant="field"
+        size="field"
+        className="hidden md:inline-flex"
+        onClick={() =>
+          toast("Need a hand?", {
+            description: "Our team replies in about 5 minutes on weekdays.",
+            action: {
+              label: "Open chat",
+              onClick: () => toast.success("Chat opened in a new window"),
+            },
+          })
+        }
+      >
+        <HelpIcon aria-hidden className="size-[18px] text-white/60" />
+        <span className="pr-1">Help</span>
+      </Button>
+      <Button
+        variant="field"
+        size="field"
+        className="hidden md:inline-flex"
+        onClick={() => {
+          navigator.clipboard
+            ?.writeText("https://buzzing.email/r/azharadev")
+            .catch(() => {});
+          toast.success("Referral link copied", {
+            description: "Earn a free month for every writer who joins.",
+          });
+        }}
+      >
+        <ShareIcon aria-hidden className="size-[18px] text-white/60" />
+        <span className="pr-1">Share &amp; earn</span>
+      </Button>
+      <ProfileMenu avatarSrc={avatarSrc} />
+    </>
+  );
+}
+
+function WorkflowActions() {
+  const nodes = useWorkflowStore((state) => state.nodes);
+  const running = useWorkflowStore((state) => state.run.status === "running");
+  const canUndo = useWorkflowStore((state) => state.past.length > 0);
+  const canRedo = useWorkflowStore((state) => state.future.length > 0);
+  const hasRun = useWorkflowStore((state) => state.run.status !== "idle");
+  const { undo, redo, sendCommand, openInspector } =
+    useWorkflowStore.getState();
+
+  return (
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="field"
+            size="field"
+            className="hidden md:inline-flex"
+          >
+            <SearchIcon aria-hidden className="size-5 text-white/40" />
+            <span className="pr-1">Search</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="max-h-80 w-72">
+          <DropdownMenuLabel>Jump to a step</DropdownMenuLabel>
+          {nodes.map((node) => {
+            const action = ACTIONS[node.kind];
+            return (
+              <DropdownMenuItem
+                key={node.id}
+                className={action.theme}
+                onSelect={() => {
+                  openInspector(node.id);
+                  sendCommand("focus", node.id);
+                }}
+              >
+                <action.Icon
+                  aria-hidden
+                  className="size-4 shrink-0 text-(--accent)"
+                />
+                <span className="truncate">{node.title}</span>
+              </DropdownMenuItem>
+            );
+          })}
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="field"
+            size="field"
+            className="hidden md:inline-flex"
+          >
+            <ControlIcon aria-hidden className="size-5 text-white/60" />
+            <span className="pr-1">Control</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-56">
+          <DropdownMenuItem disabled={!canUndo} onSelect={undo}>
+            Undo
+            <span className="ml-auto text-[12px] text-white/40">⌘Z</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem disabled={!canRedo} onSelect={redo}>
+            Redo
+            <span className="ml-auto text-[12px] text-white/40">⇧⌘Z</span>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onSelect={() => sendCommand("fit")}>
+            Fit workflow to screen
+          </DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => sendCommand("reset")}>
+            Zoom to 100%
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem disabled={!hasRun} onSelect={stopRun}>
+            {running ? "Stop test run" : "Clear run highlights"}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <Button
+        variant="accent"
+        size="field"
+        aria-live="polite"
+        className="min-w-[114px] justify-start"
+        onClick={() => (running ? stopRun() : startRun())}
+      >
+        <span className="relative flex size-5 items-center justify-center">
+          <PlayIcon
+            aria-hidden
+            data-hidden={running || undefined}
+            className="ease-power3-out absolute size-5 text-white/80 transition-[opacity,scale,filter] duration-200 data-hidden:scale-[0.25] data-hidden:opacity-0 data-hidden:blur-[4px]"
+          />
+          <span
+            aria-hidden
+            data-hidden={!running || undefined}
+            className="ease-power3-out absolute size-3 animate-spin rounded-full border-[1.5px] border-white/25 border-t-white transition-[opacity,scale,filter] duration-200 data-hidden:scale-[0.25] data-hidden:opacity-0 data-hidden:blur-[4px]"
+          />
+        </span>
+        <span className="pr-1">{running ? "Running…" : "Run once"}</span>
+      </Button>
+    </>
+  );
+}
+
+export default function EditorTopbar({ avatarSrc }: EditorTopbarProps) {
+  const screen = useAppStore((state) => state.screen);
+  const tab = useAppStore((state) => state.tab);
+  const automations = useAppStore((state) => state.automations);
+  const automation = useAppStore((state) =>
+    state.automations.find((item) => item.id === state.automationId),
+  );
+  const openScreen = useAppStore((state) => state.openScreen);
+  const toggleSidebar = useAppStore((state) => state.toggleSidebar);
+  const sidebarOpen = useAppStore((state) => state.sidebarOpen);
+
   return (
     <header className="relative flex h-16 shrink-0 items-center justify-between gap-4 bg-[#111114] p-4">
       <div className="flex min-w-0 items-center gap-4">
-        <Button variant="ghost" size="icon" aria-label="Toggle sidebar">
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label={sidebarOpen ? "Hide sidebar" : "Show sidebar"}
+          aria-pressed={!sidebarOpen}
+          onClick={toggleSidebar}
+          className="hidden sm:inline-flex"
+        >
           <ToolbarIcon
             aria-hidden
             className="ease-power3-in-out size-5 -rotate-90 text-white/50 transition-colors duration-150 group-hover:text-white/80"
           />
         </Button>
-        <div className="flex min-w-0 items-center gap-3">
-          <nav aria-label="Breadcrumb" className="min-w-0">
-            <ol className="flex items-center text-[14px] leading-6">
-              <li className="hidden text-[#fcfdff]/30 text-shadow-[0_-1px_0.25px_rgb(0_0_0/0.32)] md:block">
-                Automations
-              </li>
-              <li aria-hidden className="hidden md:block">
-                <ChevronIcon className="size-6 text-[#fcfdff]/30" />
-              </li>
-              <li
-                aria-current="page"
-                className="truncate font-[550] text-white"
-              >
-                Workflow
-              </li>
-            </ol>
-          </nav>
-          <span className="relative flex h-6 shrink-0 items-center overflow-clip rounded-[8px] bg-[#551dff]/5 bg-[linear-gradient(177.3deg,rgb(255_255_255/0.02)_3.85%,rgb(255_255_255/0.014)_28%,rgb(255_255_255/0.008)_49%,rgb(255_255_255/0)_75%)] px-1.5 text-[12px] leading-6 font-[550] text-[#7f59f0] shadow-[0_1px_2px_rgb(0_0_0/0.08),0_1px_0_rgb(0_0_0/0.12),0_0_0_1px_rgb(0_0_0/0.16),inset_0_1px_0_rgb(255_255_255/0.01),inset_0_0_0_1px_rgb(253_253_255/0.04)] text-shadow-[0_-1px_0.25px_rgb(0_0_0/0.32),0_4px_6px_rgb(127_89_240/0.4)]">
-            Draft
+
+        {screen === "dashboard" && (
+          <span className="text-[14px] leading-6 font-[550] text-white">
+            Dashboard
           </span>
-        </div>
+        )}
+
+        {screen === "automations" && (
+          <div className="flex items-center gap-3">
+            <span className="text-[14px] leading-6 font-[550] text-white">
+              Automations
+            </span>
+            <Tag tone="violet" className="tabular-nums">
+              {automations.length} total
+            </Tag>
+          </div>
+        )}
+
+        {screen === "editor" && automation && (
+          <div className="flex min-w-0 items-center gap-3">
+            <nav aria-label="Breadcrumb" className="min-w-0">
+              <ol className="flex items-center text-[14px] leading-6">
+                <li className="hidden md:block">
+                  <Button
+                    variant="crumb"
+                    size="crumb"
+                    onClick={() => openScreen("automations")}
+                  >
+                    Automations
+                  </Button>
+                </li>
+                <li aria-hidden className="hidden md:block">
+                  <ChevronIcon className="size-6 text-[#fcfdff]/30" />
+                </li>
+                <li
+                  aria-current="page"
+                  className="truncate font-[550] text-white"
+                >
+                  {TAB_LABEL[tab]}
+                </li>
+              </ol>
+            </nav>
+            <Tag tone={STATUS_TONE[automation.status]}>
+              {STATUS_LABEL[automation.status]}
+            </Tag>
+          </div>
+        )}
       </div>
 
-      <span className="pointer-events-none absolute top-1/2 left-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-[14px] leading-6 font-[550] whitespace-nowrap text-[#fcfdff]/90 lg:block">
-        🐝 Buzzing Your Inbox
-      </span>
+      {screen === "editor" && <EditorTitle />}
 
       <div className="flex shrink-0 items-center gap-3">
-        <Button variant="field" size="field" className="hidden md:inline-flex">
-          <SearchIcon aria-hidden className="size-5 text-white/40" />
-          <span className="pr-1">Search</span>
-        </Button>
-        <Button variant="field" size="field" className="hidden md:inline-flex">
-          <ControlIcon aria-hidden className="size-5 text-white/60" />
-          <span className="pr-1">Control</span>
-        </Button>
-        <Button variant="accent" size="field">
-          <PlayIcon aria-hidden className="size-5 text-white/80" />
-          <span className="pr-1">Preview</span>
-        </Button>
+        {screen === "dashboard" && (
+          <>
+            <Button
+              variant="field"
+              size="field"
+              className="hidden md:inline-flex"
+              onClick={() => openScreen("automations")}
+            >
+              <SearchIcon aria-hidden className="size-5 text-white/40" />
+              <span className="pr-1">Search</span>
+            </Button>
+            <Button
+              variant="accent"
+              size="field"
+              onClick={() =>
+                toast("New draft started", {
+                  description: "Your post will autosave while you write.",
+                })
+              }
+            >
+              <PencilIcon aria-hidden className="size-5 text-white/80" />
+              <span className="pr-1">Start writing</span>
+            </Button>
+          </>
+        )}
+        {screen === "automations" && <AccountActions avatarSrc={avatarSrc} />}
+        {screen === "editor" &&
+          (tab === "workflow" ? (
+            <WorkflowActions />
+          ) : (
+            <AccountActions avatarSrc={avatarSrc} />
+          ))}
       </div>
     </header>
   );

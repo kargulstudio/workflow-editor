@@ -25,6 +25,7 @@ export default function WorkflowControls({
       role="toolbar"
       aria-label="Canvas zoom"
       onPointerDown={(event) => event.stopPropagation()}
+      data-canvas-overlay
       className="absolute right-0 bottom-0 z-20 flex flex-col gap-2.5 p-4"
     >
       <Button

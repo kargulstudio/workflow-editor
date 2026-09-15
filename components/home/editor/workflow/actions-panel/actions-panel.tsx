@@ -33,6 +33,7 @@ export default function ActionsPanel({
     <aside
       ref={ref}
       aria-label="Actions"
+      data-canvas-overlay
       onPointerDown={(event) => event.stopPropagation()}
       className="absolute top-4 left-4 z-20 flex max-h-[calc(100%-32px)] w-[min(320px,calc(100%-32px))] flex-col overflow-clip rounded-[12px] bg-[#131317] shadow-[0_24px_48px_rgb(0_0_0/0.12),0_10px_18px_rgb(0_0_0/0.12),0_5px_8px_rgb(0_0_0/0.16),0_2px_4px_rgb(0_0_0/0.16),0_0_0_1px_rgb(0_0_0/0.12)]"
     >

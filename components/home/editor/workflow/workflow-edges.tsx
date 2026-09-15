@@ -39,6 +39,8 @@ type WorkflowEdgesProps = {
   selection: WorkflowSelection;
   snapKey: string | null;
   preview: EdgePreview | null;
+  activeEdgeId: string | null;
+  traversed: string[];
   onEdgePointerDown: (id: string, event: ReactPointerEvent) => void;
   onEndpointPointerDown: (
     source: string,
@@ -128,6 +130,8 @@ export default function WorkflowEdges({
   selection,
   snapKey,
   preview,
+  activeEdgeId,
+  traversed,
   onEdgePointerDown,
   onEndpointPointerDown,
   onDeleteEdge,
@@ -176,6 +180,7 @@ export default function WorkflowEdges({
         {routed.map(({ edge, source, target, from, to, path }) => {
           const selected =
             selection?.type === "edge" && selection.id === edge.id;
+          const lit = selected || traversed.includes(edge.id);
           return (
             <g key={edge.id} className="group/edge">
               <GradientPath
@@ -187,11 +192,23 @@ export default function WorkflowEdges({
                 path={path}
                 className={clsx(
                   "ease-power3-in-out transition-opacity duration-150",
-                  selected
+                  lit
                     ? "opacity-100"
                     : "opacity-40 group-hover/edge:opacity-70",
                 )}
               />
+              {activeEdgeId === edge.id && (
+                <path
+                  d={path}
+                  fill="none"
+                  stroke="white"
+                  strokeOpacity={0.9}
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeDasharray="4 8"
+                  className="animate-dash-flow motion-reduce:animate-none"
+                />
+              )}
               <path
                 d={path}
                 fill="none"

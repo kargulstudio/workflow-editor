@@ -72,6 +72,48 @@
   --ease-smooth-in-out: cubic-bezier(0.7, 0, 0, 1);
 }
 
+@theme {
+  --animate-run-ping: run-ping 1.2s var(--ease-power3-out) infinite;
+  --animate-dash-flow: dash-flow 0.5s linear infinite;
+  --animate-chart-draw: chart-draw 900ms var(--ease-power3-out) both;
+  --animate-fade-in: fade-in 400ms var(--ease-power3-out) both;
+
+  @keyframes run-ping {
+    0% {
+      opacity: 0.9;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.035, 1.09);
+    }
+  }
+
+  @keyframes dash-flow {
+    to {
+      stroke-dashoffset: -12;
+    }
+  }
+
+  @keyframes chart-draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -212,7 +254,7 @@
   }
 
   .lead-style {
-    @apply text-[16px] leading-[150%] tracking-[-0.01em] font-medium md:text-[18px];
+    @apply text-[16px] leading-[150%] font-medium tracking-[-0.01em] md:text-[18px];
   }
 
   html,
