@@ -64,7 +64,7 @@ export default function ActionsPanel({
       >
         <div className="flex min-h-0 flex-col overflow-hidden">
           <div className={divider} />
-          <div className="min-h-0 overflow-y-auto px-5 py-[18px] [scrollbar-width:none]">
+          <div className="min-h-0 overflow-y-auto px-5 py-[18px]">
             <div className="flex flex-col gap-4">
               {ACTION_GROUPS.map((group) => (
                 <section

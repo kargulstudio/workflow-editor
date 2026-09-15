@@ -48,7 +48,7 @@ export default function Overview({ variant, textureSrc }: OverviewProps) {
       : "Here's a quick snapshot of how this automation is performing.";
 
   return (
-    <div className="min-h-0 flex-1 overflow-y-auto [scrollbar-width:thin]">
+    <div className="min-h-0 flex-1 overflow-y-auto">
       <div className="mx-auto flex w-full max-w-[1760px] flex-col gap-10 px-4 pt-8 pb-10 sm:px-8 xl:px-20">
         <div className="flex flex-col gap-[18px]">
           <div className="flex flex-col gap-1.5">

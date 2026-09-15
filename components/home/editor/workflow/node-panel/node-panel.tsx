@@ -94,7 +94,7 @@ export default function NodePanel({ onFocusNode, onAppend }: NodePanelProps) {
           <Divider />
           <div
             key={`${node.id}-${inspector.tab}`}
-            className="animate-fade-in min-h-0 overflow-y-auto px-5 py-[18px] [scrollbar-width:thin]"
+            className="animate-fade-in min-h-0 overflow-y-auto px-5 py-[18px]"
           >
             {inspector.tab === "build" && <NodePanelBuild node={node} />}
             {inspector.tab === "status" && <NodePanelStatus node={node} />}

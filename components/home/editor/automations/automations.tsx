@@ -32,7 +32,7 @@ export default function Automations() {
     setFilters((current) => ({ ...current, ...patch }));
 
   return (
-    <div className="min-h-0 flex-1 overflow-y-auto [scrollbar-width:thin]">
+    <div className="min-h-0 flex-1 overflow-y-auto">
       <div className="flex flex-col gap-10 p-4 sm:p-8">
         <div className="flex flex-col gap-3">
           <IconBadge>

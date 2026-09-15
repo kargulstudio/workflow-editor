@@ -82,7 +82,7 @@ export default function Export() {
   };
 
   return (
-    <div className="min-h-0 flex-1 overflow-y-auto [scrollbar-width:thin]">
+    <div className="min-h-0 flex-1 overflow-y-auto">
       <div className="mx-auto flex w-full max-w-[1760px] flex-col gap-10 px-4 pt-8 pb-16 sm:px-8 xl:px-20">
         <div className="flex flex-col gap-1.5">
           <span
@@ -286,7 +286,7 @@ export default function Export() {
               </Button>
             }
           >
-            <pre className="overflow-x-auto rounded-[12px] bg-black/30 px-4 py-3 font-mono text-[12.5px] leading-5 text-white/75 shadow-[0_0_0_1px_rgb(0_0_0/0.24),inset_0_0_0_1px_rgb(255_255_255/0.04)] [scrollbar-width:thin]">
+            <pre className="overflow-x-auto rounded-[12px] bg-black/30 px-4 py-3 font-mono text-[12.5px] leading-5 text-white/75 shadow-[0_0_0_1px_rgb(0_0_0/0.24),inset_0_0_0_1px_rgb(255_255_255/0.04)]">
               <code>
                 <span className="text-[#75ffd3]">curl</span>
                 {curl.slice(4)}

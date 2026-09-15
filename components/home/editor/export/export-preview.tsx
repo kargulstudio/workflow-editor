@@ -79,7 +79,7 @@ export default function ExportPreview({ content, format }: ExportPreviewProps) {
   const lines = content.split("\n");
 
   return (
-    <pre className="min-h-0 flex-1 overflow-auto rounded-[12px] bg-black/30 py-3 font-mono text-[12.5px] leading-5 text-white/75 shadow-[0_0_0_1px_rgb(0_0_0/0.24),inset_0_0_0_1px_rgb(255_255_255/0.04)] [scrollbar-width:thin]">
+    <pre className="min-h-0 flex-1 overflow-auto rounded-[12px] bg-black/30 py-3 font-mono text-[12.5px] leading-5 text-white/75 shadow-[0_0_0_1px_rgb(0_0_0/0.24),inset_0_0_0_1px_rgb(255_255_255/0.04)]">
       <code className="grid min-w-max grid-cols-[auto_1fr]">
         {lines.map((line, index) => (
           <span key={index} className="contents">

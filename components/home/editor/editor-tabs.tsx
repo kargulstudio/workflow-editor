@@ -15,7 +15,7 @@ export default function EditorTabs() {
   const setTab = useAppStore((state) => state.setTab);
 
   return (
-    <div className="flex h-[51px] shrink-0 items-start overflow-x-auto bg-[#111114] px-4 py-2 [scrollbar-width:none]">
+    <div className="flex h-[51px] shrink-0 items-start overflow-x-auto bg-[#111114] px-4 py-2 no-scrollbar">
       <SegmentedTabs
         label="Automation sections"
         items={TABS}

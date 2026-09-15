@@ -42,7 +42,7 @@ export default function AutomationsTable({
   onOpen,
 }: AutomationsTableProps) {
   return (
-    <div className="overflow-x-auto rounded-[12px] shadow-[0_0_0_1px_rgb(0_0_0/0.14),0_1px_0_rgb(0_0_0/0.2),inset_0_1px_0_rgb(255_255_255/0.08),inset_0_0_0_1px_rgb(255_255_255/0.03)] [scrollbar-width:thin]">
+    <div className="overflow-x-auto rounded-[12px] shadow-[0_0_0_1px_rgb(0_0_0/0.14),0_1px_0_rgb(0_0_0/0.2),inset_0_1px_0_rgb(255_255_255/0.08),inset_0_0_0_1px_rgb(255_255_255/0.03)]">
       <div
         role="table"
         aria-label="Automations"
