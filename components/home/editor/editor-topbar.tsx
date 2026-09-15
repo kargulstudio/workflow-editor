@@ -1,30 +1,23 @@
 "use client";
 
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import Button from "@/components/_ui/button";
 import Tag, { type TagTone } from "@/components/_ui/tag";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/_ui/shadcn/dropdown-menu";
 import { STATUS_LABEL, useAppStore, type EditorTab } from "@/stores/app-store";
 import { useWorkflowStore } from "@/stores/workflow-store";
 import type { AutomationStatus } from "@/data/automations";
 import ToolbarIcon from "@/public/assets/images/home/editor/topbar/toolbar.svg";
 import ChevronIcon from "@/public/assets/images/home/editor/topbar/chevron.svg";
 import SearchIcon from "@/public/assets/images/home/editor/topbar/search.svg";
-import ControlIcon from "@/public/assets/images/home/editor/topbar/control.svg";
+import SaveIcon from "@/public/assets/images/home/editor/topbar/save.svg";
 import PlayIcon from "@/public/assets/images/home/editor/topbar/play.svg";
 import HelpIcon from "@/public/assets/images/home/editor/topbar/help.svg";
 import ShareIcon from "@/public/assets/images/home/editor/topbar/share.svg";
 import PencilIcon from "@/public/assets/images/home/editor/topbar/pencil.svg";
 import ProfileMenu from "./profile-menu/profile-menu";
 import EditorTitle from "./editor-title";
-import { ACTIONS } from "./workflow/workflow-actions";
+import { workflowIssues } from "./workflow/workflow-checks";
 import { startRun, stopRun } from "./workflow/workflow-run";
 
 export const STATUS_TONE: Record<AutomationStatus, TagTone> = {
@@ -87,83 +80,71 @@ function AccountActions({ avatarSrc }: EditorTopbarProps) {
 
 function WorkflowActions() {
   const nodes = useWorkflowStore((state) => state.nodes);
+  const edges = useWorkflowStore((state) => state.edges);
   const running = useWorkflowStore((state) => state.run.status === "running");
-  const canUndo = useWorkflowStore((state) => state.past.length > 0);
-  const canRedo = useWorkflowStore((state) => state.future.length > 0);
-  const hasRun = useWorkflowStore((state) => state.run.status !== "idle");
-  const { undo, redo, sendCommand, openInspector } =
-    useWorkflowStore.getState();
+  const { sendCommand, openInspector } = useWorkflowStore.getState();
+
+  const signature = useMemo(
+    () =>
+      JSON.stringify([
+        nodes.map((node) => [node.id, node.kind, node.title, node.description]),
+        edges.map((edge) => [edge.source, edge.port, edge.target]),
+      ]),
+    [nodes, edges],
+  );
+  const [savedSignature, setSavedSignature] = useState(signature);
+  const dirty = signature !== savedSignature;
+
+  const save = useCallback(() => {
+    setSavedSignature(signature);
+    const issues = workflowIssues(nodes, edges);
+    const first = issues[0];
+    if (first) {
+      toast("Workflow saved", {
+        description:
+          issues.length === 1
+            ? first.title
+            : `${issues.length} things to fix · ${first.title}`,
+        action: first.nodeId
+          ? {
+              label: "Show me",
+              onClick: () => {
+                openInspector(first.nodeId as string);
+                sendCommand("focus", first.nodeId as string);
+              },
+            }
+          : undefined,
+      });
+      return;
+    }
+    toast.success("Workflow saved", {
+      description: `${nodes.length} steps · ${edges.length} connections · ready to run`,
+    });
+  }, [signature, nodes, edges, openInspector, sendCommand]);
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "s" || !(event.metaKey || event.ctrlKey)) return;
+      event.preventDefault();
+      if (dirty) save();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [dirty, save]);
 
   return (
     <>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="field"
-            size="field"
-            className="hidden md:inline-flex"
-          >
-            <SearchIcon aria-hidden className="size-5 text-white/40" />
-            <span className="pr-1">Search</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="max-h-80 w-72">
-          <DropdownMenuLabel>Jump to a step</DropdownMenuLabel>
-          {nodes.map((node) => {
-            const action = ACTIONS[node.kind];
-            return (
-              <DropdownMenuItem
-                key={node.id}
-                className={action.theme}
-                onSelect={() => {
-                  openInspector(node.id);
-                  sendCommand("focus", node.id);
-                }}
-              >
-                <action.Icon
-                  aria-hidden
-                  className="size-4 shrink-0 text-(--accent)"
-                />
-                <span className="truncate">{node.title}</span>
-              </DropdownMenuItem>
-            );
-          })}
-        </DropdownMenuContent>
-      </DropdownMenu>
-
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="field"
-            size="field"
-            className="hidden md:inline-flex"
-          >
-            <ControlIcon aria-hidden className="size-5 text-white/60" />
-            <span className="pr-1">Control</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56">
-          <DropdownMenuItem disabled={!canUndo} onSelect={undo}>
-            Undo
-            <span className="ml-auto text-[12px] text-white/40">⌘Z</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem disabled={!canRedo} onSelect={redo}>
-            Redo
-            <span className="ml-auto text-[12px] text-white/40">⇧⌘Z</span>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onSelect={() => sendCommand("fit")}>
-            Fit workflow to screen
-          </DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => sendCommand("reset")}>
-            Zoom to 100%
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem disabled={!hasRun} onSelect={stopRun}>
-            {running ? "Stop test run" : "Clear run highlights"}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <Button
+        variant="field"
+        size="field"
+        disabled={!dirty}
+        onClick={save}
+        aria-keyshortcuts="Meta+S"
+        className="hidden md:inline-flex"
+      >
+        <SaveIcon aria-hidden className="size-5 text-white/55" />
+        <span className="pr-1">{dirty ? "Save" : "Saved"}</span>
+      </Button>
 
       <Button
         variant="accent"
