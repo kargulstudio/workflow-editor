@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import { clsx } from "clsx";
+import { animate, type AnimationPlaybackControls } from "motion";
+import { ease } from "@/lib/easings";
 import {
   useWorkflowStore,
   type ActionKind,
@@ -15,9 +17,9 @@ import WorkflowNode from "./workflow-node";
 import WorkflowEdges, { portKey, type EdgePreview } from "./workflow-edges";
 import WorkflowControls from "./workflow-controls";
 import WorkflowGhost from "./workflow-ghost";
+import WorkflowGrid from "./workflow-grid";
 import { ACTIONS } from "./workflow-actions";
 import {
-  GRID_SIZE,
   MAX_ZOOM,
   MIN_ZOOM,
   NODE_WIDTH,
@@ -55,7 +57,7 @@ type LinkDrag = {
 
 type PointerEnd = (event: PointerEvent, cancelled: boolean) => void;
 
-const VIEW_DURATION = 250;
+const VIEW_DURATION = 0.25;
 const SNAP_RADIUS = 48;
 const DRAG_THRESHOLD = 4;
 const ZOOM_STEP = 1.25;
@@ -135,7 +137,7 @@ export default function WorkflowCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLElement>(null);
   const stopTrackingRef = useRef<(() => void) | null>(null);
-  const animationTimerRef = useRef<number | null>(null);
+  const animationRef = useRef<AnimationPlaybackControls | null>(null);
 
   const nodes = useWorkflowStore((state) => state.nodes);
   const edges = useWorkflowStore((state) => state.edges);
@@ -152,7 +154,6 @@ export default function WorkflowCanvas() {
   const [link, setLink] = useState<LinkDrag | null>(null);
   const [draggingNode, setDraggingNode] = useState<string | null>(null);
   const [panning, setPanning] = useState(false);
-  const [animating, setAnimating] = useState(false);
 
   const bounds = useCallback(
     () => containerRef.current!.getBoundingClientRect(),
@@ -171,22 +172,34 @@ export default function WorkflowCanvas() {
   );
 
   const stopAnimation = useCallback(() => {
-    if (animationTimerRef.current) clearTimeout(animationTimerRef.current);
-    animationTimerRef.current = null;
-    setAnimating(false);
+    animationRef.current?.stop();
+    animationRef.current = null;
   }, []);
 
   const animateView = useCallback(
     (update: (view: WorkflowView) => WorkflowView) => {
-      if (animationTimerRef.current) clearTimeout(animationTimerRef.current);
-      setAnimating(true);
-      setView(update);
-      animationTimerRef.current = window.setTimeout(() => {
-        animationTimerRef.current = null;
-        setAnimating(false);
-      }, VIEW_DURATION);
+      stopAnimation();
+      const from = getState().view;
+      const to = update(from);
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setView(() => to);
+        return;
+      }
+      animationRef.current = animate(0, 1, {
+        duration: VIEW_DURATION,
+        ease: ease.power3InOut,
+        onUpdate: (progress) =>
+          setView(() => ({
+            x: from.x + (to.x - from.x) * progress,
+            y: from.y + (to.y - from.y) * progress,
+            zoom: from.zoom + (to.zoom - from.zoom) * progress,
+          })),
+        onComplete: () => {
+          animationRef.current = null;
+        },
+      });
     },
-    [setView],
+    [setView, stopAnimation],
   );
 
   const cancelInteraction = useCallback(() => {
@@ -201,7 +214,7 @@ export default function WorkflowCanvas() {
   useEffect(
     () => () => {
       stopTrackingRef.current?.();
-      if (animationTimerRef.current) clearTimeout(animationTimerRef.current);
+      animationRef.current?.stop();
     },
     [],
   );
@@ -619,14 +632,10 @@ export default function WorkflowCanvas() {
     };
   }
 
-  const gridSize = GRID_SIZE * view.zoom * (view.zoom < 0.5 ? 2 : 1);
   const canvasStyle = {
     "--view-x": `${view.x}px`,
     "--view-y": `${view.y}px`,
     "--view-zoom": view.zoom,
-    "--grid-size": `${gridSize}px`,
-    "--grid-x": `${view.x - gridSize / 2}px`,
-    "--grid-y": `${view.y - gridSize / 2}px`,
   } as CSSProperties;
 
   const interacting = Boolean(palette || link || draggingNode || panning);
@@ -639,24 +648,11 @@ export default function WorkflowCanvas() {
       aria-label="Workflow canvas"
       style={canvasStyle}
       onPointerDown={handleCanvasPointerDown}
-      className="@container relative min-h-0 flex-1 touch-none overflow-hidden bg-[#0e0e12] select-none"
+      className="relative min-h-0 flex-1 touch-none overflow-hidden bg-[#0e0e12] select-none"
     >
-      <div
-        aria-hidden
-        className={clsx(
-          "pointer-events-none absolute inset-0 bg-[radial-gradient(circle,#1c1c21_1.2px,transparent_1.7px)] [background-size:var(--grid-size)_var(--grid-size)] [background-position:calc(50cqw+var(--grid-x))_var(--grid-y)]",
-          animating &&
-            "ease-power3-in-out transition-[background-size,background-position] duration-[250ms] motion-reduce:transition-none",
-        )}
-      />
+      <WorkflowGrid />
 
-      <div
-        className={clsx(
-          "absolute top-0 left-1/2 origin-top-left [transform:translate(var(--view-x),var(--view-y))_scale(var(--view-zoom))]",
-          animating &&
-            "ease-power3-in-out transition-transform duration-[250ms] motion-reduce:transition-none",
-        )}
-      >
+      <div className="absolute top-0 left-1/2 origin-top-left [transform:translate(var(--view-x),var(--view-y))_scale(var(--view-zoom))]">
         <WorkflowEdges
           nodes={nodes}
           edges={edges}
