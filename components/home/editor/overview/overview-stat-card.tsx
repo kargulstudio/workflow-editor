@@ -21,7 +21,7 @@ export default function OverviewStatCard({
   const Icon = ICONS[stat.icon];
 
   return (
-    <div className="group/stat relative flex min-h-[145px] flex-col overflow-clip rounded-[16px] bg-[#141417] shadow-[0_2px_4px_rgb(0_0_0/0.16),0_0_0_1px_rgb(0_0_0/0.12)]">
+    <div className="group/stat relative flex min-h-[145px] min-w-0 flex-col overflow-clip rounded-[16px] bg-[#141417] shadow-[0_2px_4px_rgb(0_0_0/0.16),0_0_0_1px_rgb(0_0_0/0.12)]">
       <Image
         src={textureSrc}
         alt=""

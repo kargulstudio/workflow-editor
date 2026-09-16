@@ -212,7 +212,10 @@ export default function EditorTopbar({ avatarSrc }: EditorTopbarProps) {
                 </li>
               </ol>
             </nav>
-            <Tag tone={STATUS_TONE[automation.status]}>
+            <Tag
+              tone={STATUS_TONE[automation.status]}
+              className="max-[380px]:hidden"
+            >
               {STATUS_LABEL[automation.status]}
             </Tag>
           </div>

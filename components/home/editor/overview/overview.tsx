@@ -98,7 +98,7 @@ export default function Overview({ variant, textureSrc }: OverviewProps) {
         </div>
 
         <div className="flex flex-col gap-5">
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 [grid-template-columns:minmax(0,1fr)] md:grid-cols-[repeat(3,minmax(0,1fr))]">
             {stats.map((stat) => (
               <OverviewStatCard
                 key={`${tab}-${stat.label}`}
@@ -107,7 +107,7 @@ export default function Overview({ variant, textureSrc }: OverviewProps) {
               />
             ))}
           </div>
-          <div className="grid gap-4 lg:grid-cols-2">
+          <div className="grid gap-4 [grid-template-columns:minmax(0,1fr)] lg:grid-cols-[repeat(2,minmax(0,1fr))]">
             <OverviewGrowthChart
               data={chart}
               animationKey={`${seed}-${tab}-${range}`}

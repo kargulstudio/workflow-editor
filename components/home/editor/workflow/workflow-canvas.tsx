@@ -1,16 +1,11 @@
 "use client";
 
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  useSyncExternalStore,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import { clsx } from "clsx";
 import { animate, type AnimationPlaybackControls } from "motion";
 import { ease } from "@/lib/easings";
+import { useCompact } from "@/lib/use-compact";
 import {
   useWorkflowStore,
   type ActionKind,
@@ -72,18 +67,6 @@ const DRAG_THRESHOLD = 4;
 const ZOOM_STEP = 1.25;
 const PANEL_INSET = 352;
 const SNAP_TOLERANCE = 10;
-
-const COMPACT_QUERY = "(max-width: 639px)";
-
-function subscribeCompact(onChange: () => void) {
-  const query = window.matchMedia(COMPACT_QUERY);
-  query.addEventListener("change", onChange);
-  return () => query.removeEventListener("change", onChange);
-}
-
-function isCompact() {
-  return window.matchMedia(COMPACT_QUERY).matches;
-}
 const INSPECTOR_INSET = 512;
 
 const { getState } = useWorkflowStore;
@@ -178,7 +161,7 @@ export default function WorkflowCanvas() {
     (state) => state.inspector?.nodeId ?? null,
   );
 
-  const compact = useSyncExternalStore(subscribeCompact, isCompact, () => false);
+  const compact = useCompact();
   const [panelOverride, setPanelOverride] = useState<boolean | null>(null);
   const panelOpen = panelOverride ?? !compact;
   const [palette, setPalette] = useState<PaletteDrag | null>(null);

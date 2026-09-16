@@ -24,17 +24,11 @@ export default function AutomationsGrid({
   const exportGraph = useWorkflowStore((state) => state.exportGraph);
 
   return (
-    <ul className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
+    <ul className="grid grid-cols-[repeat(auto-fill,minmax(min(300px,100%),1fr))] gap-4">
       {automations.map((automation, index) => {
         const graph = exportGraph(automation.id);
         const steps = graph.nodes.toSorted((a, b) => a.y - b.y || a.x - b.x);
         const edited = relativeTime(automation.updatedAt, now);
-        const rate = automation.enrolled
-          ? Math.min(
-              100,
-              Math.round((automation.completed / automation.enrolled) * 100),
-            )
-          : 0;
         return (
           <li
             key={automation.id}
@@ -85,29 +79,21 @@ export default function AutomationsGrid({
                   </span>
                 )}
               </span>
-              <span className="mt-auto flex flex-col gap-2">
-                <span className="flex h-1.5 overflow-hidden rounded-full bg-white/5">
-                  <span
-                    className="h-full w-(--rate) rounded-full bg-linear-to-r from-[#12a8ff] via-[#bd49fc] to-[#4961fc]"
-                    style={{ "--rate": `${rate}%` } as CSSProperties}
-                  />
+              <span className="mt-auto flex items-center justify-between gap-3 text-[12px] leading-4 text-white/50 tabular-nums">
+                <span className="min-w-0 truncate">
+                  <span className="font-[550] text-white">
+                    {automation.enrolled}
+                  </span>{" "}
+                  enrolled ·{" "}
+                  <span className="font-[550] text-white">
+                    {automation.completed}
+                  </span>{" "}
+                  completed
                 </span>
-                <span className="flex items-center justify-between text-[12px] leading-4 text-white/50 tabular-nums">
-                  <span>
-                    <span className="font-[550] text-white">
-                      {automation.enrolled}
-                    </span>{" "}
-                    enrolled ·{" "}
-                    <span className="font-[550] text-white">
-                      {automation.completed}
-                    </span>{" "}
-                    completed
-                  </span>
-                  <span>
-                    {edited.value
-                      ? `${edited.value} ${edited.unit}`
-                      : edited.unit}
-                  </span>
+                <span className="shrink-0">
+                  {edited.value
+                    ? `${edited.value} ${edited.unit}`
+                    : edited.unit}
                 </span>
               </span>
             </Button>

@@ -107,7 +107,8 @@ export default function ProfileMenu({ avatarSrc }: ProfileMenuProps) {
         <DropdownMenuContent
           align="end"
           sideOffset={16}
-          className="flex w-[350px] flex-col gap-px overflow-clip rounded-[16px] bg-[#17171c]/80 bg-[radial-gradient(circle_at_43px_11px,rgb(255_255_255/0.08),transparent_200px)] p-0 shadow-[-10px_32px_64px_2px_rgb(0_0_0/0.5),0_24px_48px_rgb(0_0_0/0.12),0_10px_18px_rgb(0_0_0/0.12),0_5px_8px_rgb(0_0_0/0.16),0_2px_4px_rgb(0_0_0/0.16),0_0_0_1.7px_rgb(0_0_0/0.12),inset_0_1px_0_rgb(255_255_255/0.04),inset_0_0_0_1px_rgb(253_253_255/0.04)] backdrop-blur-[10px]"
+          collisionPadding={8}
+          className="flex w-[min(350px,calc(100vw-16px))] flex-col gap-px overflow-clip rounded-[16px] bg-[#17171c]/80 bg-[radial-gradient(circle_at_43px_11px,rgb(255_255_255/0.08),transparent_200px)] p-0 shadow-[-10px_32px_64px_2px_rgb(0_0_0/0.5),0_24px_48px_rgb(0_0_0/0.12),0_10px_18px_rgb(0_0_0/0.12),0_5px_8px_rgb(0_0_0/0.16),0_2px_4px_rgb(0_0_0/0.16),0_0_0_1.7px_rgb(0_0_0/0.12),inset_0_1px_0_rgb(255_255_255/0.04),inset_0_0_0_1px_rgb(253_253_255/0.04)] backdrop-blur-[10px]"
         >
           <div className="p-3">
             <div className="flex items-center gap-3 rounded-[8px] px-2 py-1.5">

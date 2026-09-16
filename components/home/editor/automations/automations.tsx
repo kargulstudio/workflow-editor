@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import Button from "@/components/_ui/button";
 import IconBadge from "@/components/_ui/icon-badge";
+import { useCompact } from "@/lib/use-compact";
 import { useAppStore } from "@/stores/app-store";
 import BoltIcon from "@/public/assets/images/home/editor/automations/bolt.svg";
 import AutomationsToolbar from "./automations-toolbar";
@@ -24,7 +25,9 @@ export default function Automations() {
   const openAutomation = useAppStore((state) => state.openAutomation);
   const createAutomation = useAppStore((state) => state.createAutomation);
   const [filters, setFilters] = useState(INITIAL_FILTERS);
-  const [view, setView] = useState<"table" | "grid">("table");
+  const compact = useCompact();
+  const [viewOverride, setView] = useState<"table" | "grid" | null>(null);
+  const view = viewOverride ?? (compact ? "grid" : "table");
   const now = useNow();
 
   const visible = applyFilters(automations, filters);
@@ -33,7 +36,7 @@ export default function Automations() {
 
   return (
     <div className="min-h-0 flex-1 overflow-y-auto">
-      <div className="mx-auto box-content flex max-w-[1200px] flex-col gap-10 p-4 sm:p-8">
+      <div className="mx-auto box-content flex max-w-[1200px] flex-col gap-7 p-4 sm:gap-10 sm:p-8">
         <div className="flex flex-col gap-3">
           <IconBadge>
             <BoltIcon className="size-[22px] text-white" />
@@ -66,7 +69,7 @@ export default function Automations() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-5 sm:gap-10">
           <AutomationsToolbar
             filters={filters}
             view={view}
@@ -75,6 +78,13 @@ export default function Automations() {
               setView((current) => (current === "table" ? "grid" : "table"))
             }
             onCreate={createAutomation}
+            onReset={() =>
+              setFilters((current) => ({
+                ...INITIAL_FILTERS,
+                query: current.query,
+              }))
+            }
+            resultCount={visible.length}
           />
 
           <div className="flex flex-col gap-5">

@@ -22,7 +22,7 @@ export default function EditorTabs({ bottom }: { bottom?: boolean }) {
           items={TABS}
           value={tab}
           onChange={setTab}
-          className="grid-cols-4 [&>button]:px-2"
+          className="grid-cols-4 [&>button]:px-1 max-[360px]:[&>button]:text-[13px]"
         />
       </div>
     );
