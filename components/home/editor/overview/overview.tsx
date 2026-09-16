@@ -44,7 +44,7 @@ export default function Overview({ variant, textureSrc }: OverviewProps) {
     variant === "dashboard" ? "Hey hey 👋" : (automation?.name ?? "Overview");
   const description =
     variant === "dashboard"
-      ? "Here's a quick snapshot of how your publication is performing."
+      ? "Here's a quick snapshot of how your automations are performing."
       : "Here's a quick snapshot of how this automation is performing.";
 
   return (

@@ -19,7 +19,7 @@ import SearchIcon from "@/public/assets/images/home/editor/topbar/search.svg";
 import PlayIcon from "@/public/assets/images/home/editor/topbar/play.svg";
 import HelpIcon from "@/public/assets/images/home/editor/topbar/help.svg";
 import ShareIcon from "@/public/assets/images/home/editor/topbar/share.svg";
-import PencilIcon from "@/public/assets/images/home/editor/topbar/pencil.svg";
+import PlusIcon from "@/public/assets/images/home/editor/sidebar/plus.svg";
 import MoreIcon from "@/public/assets/images/home/editor/topbar/more.svg";
 import WebhookIcon from "@/public/assets/images/home/editor/workflow/webhook.svg";
 import ProfileMenu from "./profile-menu/profile-menu";
@@ -152,6 +152,7 @@ export default function EditorTopbar({ avatarSrc }: EditorTopbarProps) {
     state.automations.find((item) => item.id === state.automationId),
   );
   const openScreen = useAppStore((state) => state.openScreen);
+  const createAutomation = useAppStore((state) => state.createAutomation);
   const toggleSidebar = useAppStore((state) => state.toggleSidebar);
   const sidebarOpen = useAppStore((state) => state.sidebarOpen);
 
@@ -234,19 +235,18 @@ export default function EditorTopbar({ avatarSrc }: EditorTopbarProps) {
               onClick={() => openScreen("automations")}
             >
               <SearchIcon aria-hidden className="size-5 text-white/40" />
-              <span className="pr-1">Search</span>
+              <span className="pr-1">Search automations</span>
             </Button>
             <Button
               variant="accent"
               size="field"
-              onClick={() =>
-                toast("New draft started", {
-                  description: "Your post will autosave while you write.",
-                })
-              }
+              className="pl-2"
+              onClick={createAutomation}
             >
-              <PencilIcon aria-hidden className="size-5 text-white/80" />
-              <span className="pr-1">Start writing</span>
+              <span className="flex size-5 items-center justify-center">
+                <PlusIcon aria-hidden className="size-3.5" />
+              </span>
+              <span className="pr-1">New automation</span>
             </Button>
           </>
         )}

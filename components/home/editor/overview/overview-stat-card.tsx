@@ -31,14 +31,14 @@ export default function OverviewStatCard({
       />
       <CardGlow
         aria-hidden
-        className="ease-power3-out pointer-events-none absolute top-[-84px] left-1/2 h-[181px] w-[519px] max-w-none -translate-x-1/2 -scale-y-100 opacity-0 transition-opacity duration-300 group-hover/stat:opacity-100"
+        className="ease-power3-out pointer-events-none absolute top-[-84px] left-1/2 h-[181px] w-[519px] max-w-none -translate-x-1/2 -scale-y-100 opacity-0 transition-opacity duration-600 group-hover/stat:opacity-100"
       />
       <div className="relative flex flex-col gap-5 px-5 pt-[19px] pb-[18px]">
         <div className="flex items-center gap-3.5">
           <IconBadge>
             <Icon className="size-[22px] text-white" />
           </IconBadge>
-          <span className="ease-power3-in-out text-[16px] leading-6 font-[550] text-white/60 transition-colors duration-200 text-shadow-[0_-1px_0.25px_rgb(0_0_0/0.32)] group-hover/stat:text-white">
+          <span className="ease-power3-in-out text-[16px] leading-6 font-[550] text-white/60 transition-colors duration-400 text-shadow-[0_-1px_0.25px_rgb(0_0_0/0.32)] group-hover/stat:text-white">
             {stat.label}
           </span>
         </div>
