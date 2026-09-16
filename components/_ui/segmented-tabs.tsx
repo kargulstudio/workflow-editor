@@ -24,6 +24,7 @@ export default function SegmentedTabs<T extends string>({
   className,
 }: SegmentedTabsProps<T>) {
   const listRef = useRef<HTMLDivElement>(null);
+  const wrap = items.length > 3;
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
@@ -47,7 +48,8 @@ export default function SegmentedTabs<T extends string>({
       aria-label={label}
       onKeyDown={handleKeyDown}
       className={cn(
-        "flex w-fit gap-0.5 rounded-[9px] bg-[#121215] p-px shadow-[0_0_0_1px_rgb(0_0_0/0.24),0_1px_1px_rgb(0_0_0/0.05),inset_0_2px_4px_rgb(0_0_0/0.2),inset_0_1.048px_2.096px_rgb(0_0_0/0.05)]",
+        "gap-0.5 overflow-hidden rounded-[9px] bg-[#121215] p-px shadow-[0_0_0_1px_rgb(0_0_0/0.24),0_1px_1px_rgb(0_0_0/0.05),inset_0_2px_4px_rgb(0_0_0/0.2),inset_0_1.048px_2.096px_rgb(0_0_0/0.05)]",
+        wrap ? "grid w-full grid-cols-2 sm:flex sm:w-fit" : "flex w-fit",
         className,
       )}
     >

@@ -26,7 +26,7 @@ export default function SettingsSection({
     <section
       id={id}
       aria-labelledby={`${id}-title`}
-      className="relative scroll-mt-6 overflow-clip rounded-[16px] bg-[#141417] shadow-[0_2px_4px_rgb(0_0_0/0.16),0_0_0_1px_rgb(0_0_0/0.12)]"
+      className="relative min-w-0 scroll-mt-6 overflow-clip rounded-[16px] bg-[#141417] shadow-[0_2px_4px_rgb(0_0_0/0.16),0_0_0_1px_rgb(0_0_0/0.12)]"
     >
       <div
         className={cn(

@@ -98,7 +98,7 @@ export default function Export() {
           </span>
         </div>
 
-        <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+        <div className="grid items-start gap-6 [grid-template-columns:minmax(0,1fr)] xl:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
           <SettingsSection
             id="export-format"
             title="Format"
@@ -207,7 +207,7 @@ export default function Export() {
 
           <section
             aria-label="Preview"
-            className="relative flex h-[min(640px,calc(100dvh-220px))] min-h-[420px] flex-col gap-3 overflow-clip rounded-[16px] bg-[#141417] p-4 shadow-[0_2px_4px_rgb(0_0_0/0.16),0_0_0_1px_rgb(0_0_0/0.12)] xl:sticky xl:top-0"
+            className="relative flex h-[min(640px,calc(100dvh-220px))] min-h-[420px] min-w-0 flex-col gap-3 overflow-clip rounded-[16px] bg-[#141417] p-4 shadow-[0_2px_4px_rgb(0_0_0/0.16),0_0_0_1px_rgb(0_0_0/0.12)] xl:sticky xl:top-0"
           >
             <div className="flex items-center justify-between gap-3 px-1">
               <span className="flex min-w-0 items-center gap-2">
@@ -227,7 +227,7 @@ export default function Export() {
           </section>
         </div>
 
-        <div className="grid items-start gap-6 lg:grid-cols-2">
+        <div className="grid items-start gap-6 [grid-template-columns:minmax(0,1fr)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
           <SettingsSection
             id="export-share"
             title="Share"
@@ -256,7 +256,7 @@ export default function Export() {
                 readOnly
                 value={shareUrl}
                 disabled={!settings.shareLink}
-                className="font-mono text-[13px]"
+                className="min-w-0 font-mono text-[13px]"
               />
               <Button
                 variant="field"

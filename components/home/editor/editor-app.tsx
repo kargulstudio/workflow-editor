@@ -46,7 +46,7 @@ export default function EditorApp({ avatarSrc, textureSrc }: EditorAppProps) {
           {screen === "editor" && (
             <>
               <EditorTabs />
-              <div aria-hidden className={divider} />
+              <div aria-hidden className={`${divider} hidden sm:block`} />
               {tab === "workflow" && <WorkflowCanvas />}
               {tab === "overview" && (
                 <Overview
@@ -57,6 +57,8 @@ export default function EditorApp({ avatarSrc, textureSrc }: EditorAppProps) {
               )}
               {tab === "settings" && <Settings key={automationId} />}
               {tab === "export" && <Export key={automationId} />}
+              <div aria-hidden className={`${divider} sm:hidden`} />
+              <EditorTabs bottom />
             </>
           )}
           {screen === "automations" && <Automations />}

@@ -1,6 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import { clsx } from "clsx";
 import { animate, type AnimationPlaybackControls } from "motion";
@@ -64,6 +70,18 @@ const SNAP_RADIUS = 48;
 const DRAG_THRESHOLD = 4;
 const ZOOM_STEP = 1.25;
 const PANEL_INSET = 352;
+
+const COMPACT_QUERY = "(max-width: 639px)";
+
+function subscribeCompact(onChange: () => void) {
+  const query = window.matchMedia(COMPACT_QUERY);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
+
+function isCompact() {
+  return window.matchMedia(COMPACT_QUERY).matches;
+}
 const INSPECTOR_INSET = 512;
 
 const { getState } = useWorkflowStore;
@@ -158,7 +176,9 @@ export default function WorkflowCanvas() {
     (state) => state.inspector?.nodeId ?? null,
   );
 
-  const [panelOpen, setPanelOpen] = useState(true);
+  const compact = useSyncExternalStore(subscribeCompact, isCompact, () => false);
+  const [panelOverride, setPanelOverride] = useState<boolean | null>(null);
+  const panelOpen = panelOverride ?? !compact;
   const [palette, setPalette] = useState<PaletteDrag | null>(null);
   const [link, setLink] = useState<LinkDrag | null>(null);
   const [draggingNode, setDraggingNode] = useState<string | null>(null);
@@ -634,6 +654,14 @@ export default function WorkflowCanvas() {
     [animateView, bounds, panelOpen, setView],
   );
 
+  const fittedCompact = useRef(false);
+  useEffect(() => {
+    if (!compact || fittedCompact.current) return;
+    fittedCompact.current = true;
+    const frame = requestAnimationFrame(() => fitView({ animate: false }));
+    return () => cancelAnimationFrame(frame);
+  }, [compact, fitView]);
+
   const fitRequest = useWorkflowStore((state) => state.fitRequest);
 
   useEffect(() => {
@@ -803,7 +831,7 @@ export default function WorkflowCanvas() {
         ref={panelRef}
         open={panelOpen}
         draggingKind={palette?.kind ?? null}
-        onToggle={() => setPanelOpen((open) => !open)}
+        onToggle={() => setPanelOverride(!panelOpen)}
         onItemPointerDown={handleItemPointerDown}
         onAdd={addToNextSlot}
       />

@@ -10,12 +10,26 @@ const TABS: { value: EditorTab; label: string }[] = [
   { value: "export", label: "Export" },
 ];
 
-export default function EditorTabs() {
+export default function EditorTabs({ bottom }: { bottom?: boolean }) {
   const tab = useAppStore((state) => state.tab);
   const setTab = useAppStore((state) => state.setTab);
 
+  if (bottom) {
+    return (
+      <div className="shrink-0 bg-[#111114] px-4 py-2 sm:hidden">
+        <SegmentedTabs
+          label="Automation sections"
+          items={TABS}
+          value={tab}
+          onChange={setTab}
+          className="grid-cols-4 [&>button]:px-2"
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className="no-scrollbar flex h-[51px] shrink-0 items-start overflow-x-auto bg-[#111114] px-4 py-2">
+    <div className="no-scrollbar hidden shrink-0 items-start overflow-x-auto bg-[#111114] px-4 py-2 sm:flex sm:h-[51px]">
       <SegmentedTabs
         label="Automation sections"
         items={TABS}

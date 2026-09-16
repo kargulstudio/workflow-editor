@@ -45,8 +45,20 @@ function copy(value: string, label: string) {
   });
 }
 
-export default function McpConnect() {
-  const [open, setOpen] = useState(false);
+type McpConnectProps = {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  hideTrigger?: boolean;
+};
+
+export default function McpConnect({
+  open,
+  onOpenChange,
+  hideTrigger,
+}: McpConnectProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = open ?? internalOpen;
+  const setOpen = onOpenChange ?? setInternalOpen;
   const automation = useAppStore((state) =>
     state.automations.find((item) => item.id === state.automationId),
   );
@@ -70,13 +82,19 @@ export default function McpConnect() {
   const prompt = `Enroll sarah@example.com in “${automation?.name ?? "this automation"}”, run it once, then tell me which branch she lands on and why.`;
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="field" size="field" className="hidden md:inline-flex">
-          <WebhookIcon aria-hidden className="size-[18px] text-white/60" />
-          <span className="pr-1">Connect MCP</span>
-        </Button>
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={setOpen}>
+      {!hideTrigger && (
+        <DialogTrigger asChild>
+          <Button
+            variant="field"
+            size="field"
+            className="hidden md:inline-flex"
+          >
+            <WebhookIcon aria-hidden className="size-[18px] text-white/60" />
+            <span className="pr-1">Connect MCP</span>
+          </Button>
+        </DialogTrigger>
+      )}
       <DialogContent aria-describedby={undefined}>
         <div className="flex shrink-0 items-start justify-between gap-4 p-[18px]">
           <div className="flex min-w-0 items-center gap-3.5">

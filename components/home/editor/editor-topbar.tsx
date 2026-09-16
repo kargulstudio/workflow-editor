@@ -1,8 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import { toast } from "sonner";
 import Button from "@/components/_ui/button";
 import Tag, { type TagTone } from "@/components/_ui/tag";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/_ui/shadcn/dropdown-menu";
 import { STATUS_LABEL, useAppStore, type EditorTab } from "@/stores/app-store";
 import { useWorkflowStore } from "@/stores/workflow-store";
 import type { AutomationStatus } from "@/data/automations";
@@ -13,6 +20,8 @@ import PlayIcon from "@/public/assets/images/home/editor/topbar/play.svg";
 import HelpIcon from "@/public/assets/images/home/editor/topbar/help.svg";
 import ShareIcon from "@/public/assets/images/home/editor/topbar/share.svg";
 import PencilIcon from "@/public/assets/images/home/editor/topbar/pencil.svg";
+import MoreIcon from "@/public/assets/images/home/editor/topbar/more.svg";
+import WebhookIcon from "@/public/assets/images/home/editor/workflow/webhook.svg";
 import ProfileMenu from "./profile-menu/profile-menu";
 import EditorTitle from "./editor-title";
 import McpConnect from "./mcp-connect/mcp-connect";
@@ -76,6 +85,34 @@ function AccountActions({ avatarSrc }: EditorTopbarProps) {
   );
 }
 
+function MobileMenu() {
+  const [mcpOpen, setMcpOpen] = useState(false);
+
+  return (
+    <>
+      <McpConnect hideTrigger open={mcpOpen} onOpenChange={setMcpOpen} />
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="field"
+            size="field"
+            aria-label="More actions"
+            className="px-1.5 sm:hidden"
+          >
+            <MoreIcon aria-hidden className="size-5 text-white/60" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-52">
+          <DropdownMenuItem onSelect={() => setMcpOpen(true)}>
+            <WebhookIcon aria-hidden className="size-[18px] text-white/60" />
+            Connect MCP
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
+  );
+}
+
 function WorkflowActions() {
   const running = useWorkflowStore((state) => state.run.status === "running");
 
@@ -127,7 +164,6 @@ export default function EditorTopbar({ avatarSrc }: EditorTopbarProps) {
           aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
           aria-pressed={sidebarOpen}
           onClick={toggleSidebar}
-          className="hidden sm:inline-flex"
         >
           <ToolbarIcon
             aria-hidden
@@ -212,6 +248,7 @@ export default function EditorTopbar({ avatarSrc }: EditorTopbarProps) {
           </>
         )}
         {screen === "automations" && <AccountActions avatarSrc={avatarSrc} />}
+        {screen === "editor" && <MobileMenu />}
         {screen === "editor" &&
           (tab === "workflow" ? (
             <WorkflowActions />
