@@ -123,8 +123,8 @@ function Rail({
                       onNavigate?.();
                       return;
                     }
-                    toast(`${title} is coming soon`, {
-                      description: "We’re polishing it for the next release.",
+                    toast("Not available", {
+                      className: "justify-center text-center",
                     });
                   }}
                 >

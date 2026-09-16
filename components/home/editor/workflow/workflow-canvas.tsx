@@ -40,6 +40,7 @@ import {
   openPorts,
   outputPoint,
   placementFor,
+  snapToNodes,
   toWorld,
   zoomAround,
   type OpenPort,
@@ -70,6 +71,7 @@ const SNAP_RADIUS = 48;
 const DRAG_THRESHOLD = 4;
 const ZOOM_STEP = 1.25;
 const PANEL_INSET = 352;
+const SNAP_TOLERANCE = 10;
 
 const COMPACT_QUERY = "(max-width: 639px)";
 
@@ -455,11 +457,23 @@ export default function WorkflowCanvas() {
             getState().checkpoint();
             setDraggingNode(id);
           }
-          getState().moveNode(
-            id,
-            Math.round(node.x + deltaX / zoom),
-            Math.round(node.y + deltaY / zoom),
-          );
+          const current = getState();
+          const moving = {
+            x: node.x + deltaX / zoom,
+            y: node.y + deltaY / zoom,
+            width: NODE_WIDTH,
+            height: nodeHeight(node, current.sizes),
+          };
+          const others = current.nodes
+            .filter((item) => item.id !== id)
+            .map((item) => ({
+              x: item.x,
+              y: item.y,
+              width: NODE_WIDTH,
+              height: nodeHeight(item, current.sizes),
+            }));
+          const snapped = snapToNodes(moving, others, SNAP_TOLERANCE / zoom);
+          current.moveNode(id, Math.round(snapped.x), Math.round(snapped.y));
         },
         () => setDraggingNode(null),
       );

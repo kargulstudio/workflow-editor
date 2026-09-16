@@ -139,6 +139,42 @@ export function routePoints(source: Point, target: Point): Point[] {
   ];
 }
 
+export type SnapBox = { x: number; y: number; width: number; height: number };
+
+function alignAxis(
+  moving: SnapBox,
+  others: SnapBox[],
+  tolerance: number,
+  axis: "x" | "y",
+): number {
+  const center =
+    axis === "x" ? moving.x + moving.width / 2 : moving.y + moving.height / 2;
+  let best = 0;
+  let closest = tolerance;
+
+  for (const other of others) {
+    const otherCenter =
+      axis === "x" ? other.x + other.width / 2 : other.y + other.height / 2;
+    const delta = otherCenter - center;
+    if (Math.abs(delta) > closest) continue;
+    closest = Math.abs(delta);
+    best = delta;
+  }
+
+  return best;
+}
+
+export function snapToNodes(
+  moving: SnapBox,
+  others: SnapBox[],
+  tolerance: number,
+): Point {
+  return {
+    x: moving.x + alignAxis(moving, others, tolerance, "x"),
+    y: moving.y + alignAxis(moving, others, tolerance, "y"),
+  };
+}
+
 export function roundedPath(points: Point[]) {
   const [first, ...rest] = points;
   let path = `M${first.x} ${first.y}`;
