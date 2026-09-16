@@ -28,10 +28,11 @@ const items: { label: string; Icon: typeof DashboardIcon; screen?: Screen }[] =
   ];
 
 const label =
-  "ease-power3-out w-0 overflow-hidden text-left text-[14px] leading-5 font-medium whitespace-nowrap opacity-0 transition-opacity duration-150 group-data-open/rail:w-auto group-data-open/rail:opacity-100";
+  "ease-power3-out shrink-0 text-left text-[14px] leading-5 font-medium whitespace-nowrap opacity-0 transition-opacity duration-200 group-data-open/rail:opacity-100";
 
-const row =
-  "group-data-open/rail:w-full group-data-open/rail:justify-start group-data-open/rail:gap-3 group-data-open/rail:px-2.5";
+const row = "w-full justify-start gap-3 px-0";
+
+const cell = "grid size-9 shrink-0 place-items-center";
 
 function RailTooltip({
   title,
@@ -42,11 +43,10 @@ function RailTooltip({
   expanded: boolean;
   children: ReactElement;
 }) {
-  if (expanded) return children;
   return (
     <Tooltip>
       <TooltipTrigger asChild>{children}</TooltipTrigger>
-      <TooltipContent side="right">{title}</TooltipContent>
+      {!expanded && <TooltipContent side="right">{title}</TooltipContent>}
     </Tooltip>
   );
 }
@@ -67,14 +67,12 @@ export default function EditorSidebar() {
     >
       <nav
         aria-label="Primary"
-        className="flex h-full w-[236px] flex-col items-center gap-8 px-4 py-5 group-data-open/rail:items-stretch"
+        className="flex h-full w-full flex-col items-stretch gap-8 px-[17px] py-5"
       >
-        <span className="flex h-8 shrink-0 items-center gap-3">
-          <LogoIcon
-            aria-label="Buzzing"
-            role="img"
-            className="size-8 shrink-0"
-          />
+        <span className="flex items-center gap-3">
+          <span className={cell}>
+            <LogoIcon aria-label="Buzzing" role="img" className="size-8" />
+          </span>
           <span
             className={`${label} text-[15px] font-[550] tracking-[-0.01em] text-white`}
           >
@@ -82,16 +80,18 @@ export default function EditorSidebar() {
           </span>
         </span>
 
-        <div className="flex min-h-0 flex-1 flex-col items-center gap-5 group-data-open/rail:items-stretch">
+        <div className="flex min-h-0 flex-1 flex-col gap-5">
           <RailTooltip title="New automation" expanded={sidebarOpen}>
             <Button
               variant="round"
               size="icon-lg"
               aria-label="Create automation"
               onClick={createAutomation}
-              className={`${row} group-data-open/rail:rounded-[12px]`}
+              className={`${row} ease-smooth-in-out transition-[border-radius] duration-300 group-data-open/rail:rounded-[12px]`}
             >
-              <PlusIcon aria-hidden className="size-[15px] shrink-0" />
+              <span className={cell}>
+                <PlusIcon aria-hidden className="size-[15px]" />
+              </span>
               <span className={label}>New automation</span>
             </Button>
           </RailTooltip>
@@ -122,7 +122,9 @@ export default function EditorSidebar() {
                         });
                     }}
                   >
-                    <Icon aria-hidden className="size-5 shrink-0" />
+                    <span className={cell}>
+                      <Icon aria-hidden className="size-5" />
+                    </span>
                     <span className={label}>{title}</span>
                   </Button>
                 </RailTooltip>
@@ -136,13 +138,15 @@ export default function EditorSidebar() {
             variant="ghost"
             size="icon"
             aria-label="Automation settings"
-            className={`${row} group-data-open/rail:h-9`}
+            className={`${row} h-9`}
             onClick={() => openAutomation(automationId, "settings")}
           >
-            <CogIcon
-              aria-hidden
-              className="ease-power3-in-out size-5 shrink-0 text-white/32 transition-colors duration-150 group-hover:text-white/60"
-            />
+            <span className={cell}>
+              <CogIcon
+                aria-hidden
+                className="ease-power3-in-out size-5 text-white/32 transition-colors duration-150 group-hover:text-white/60"
+              />
+            </span>
             <span className={`${label} text-white/50`}>Settings</span>
           </Button>
         </RailTooltip>

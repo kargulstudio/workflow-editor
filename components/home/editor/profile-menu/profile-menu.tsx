@@ -93,7 +93,7 @@ export default function ProfileMenu({ avatarSrc }: ProfileMenuProps) {
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger
           aria-label="Open profile menu"
-          className="relative size-8 shrink-0 cursor-pointer overflow-clip rounded-[8px] border-[3px] border-white/10 bg-white shadow-[0_1.333px_2.667px_-0.667px_rgb(0_0_0/0.08),0_0.667px_0.667px_-0.667px_rgb(0_0_0/0.12),0_0_0_0.667px_rgb(0_0_0/0.12)] transition-[border-color] duration-150 outline-none hover:border-white/25 focus-visible:ring-2 focus-visible:ring-[#7f59f0]/60 data-[state=open]:border-white/30"
+          className="ease-power3-in-out relative size-8 shrink-0 cursor-pointer overflow-clip rounded-[8px] bg-white shadow-[0_1.5px_3px_-0.75px_rgb(0_0_0/0.12),0_0_0_1px_rgb(0_0_0/0.4)] transition-[box-shadow] duration-150 outline-none hover:shadow-[0_1.5px_3px_-0.75px_rgb(0_0_0/0.12),0_0_0_1px_rgb(0_0_0/0.4),0_0_0_4px_rgb(255_255_255/0.08)] focus-visible:ring-2 focus-visible:ring-[#7f59f0]/60 data-[state=open]:shadow-[0_1.5px_3px_-0.75px_rgb(0_0_0/0.12),0_0_0_1px_rgb(0_0_0/0.4),0_0_0_4px_rgb(255_255_255/0.12)]"
         >
           <Asset
             type="image"
@@ -101,7 +101,7 @@ export default function ProfileMenu({ avatarSrc }: ProfileMenuProps) {
             alt=""
             width={1}
             height={1}
-            className="absolute -inset-[1.5px] size-auto rounded-[8px]"
+            className="absolute inset-0 size-auto rounded-[8px]"
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent
@@ -111,14 +111,14 @@ export default function ProfileMenu({ avatarSrc }: ProfileMenuProps) {
         >
           <div className="p-3">
             <div className="flex items-center gap-3 rounded-[8px] px-2 py-1.5">
-              <span className="relative size-9 shrink-0 overflow-clip rounded-[9px] border-[2.25px] border-white/10 bg-white shadow-[0_1.5px_3px_-0.75px_rgb(0_0_0/0.08),0_0_0_0.75px_rgb(0_0_0/0.12)]">
+              <span className="relative size-9 shrink-0 overflow-clip rounded-[9px] bg-white shadow-[0_1.5px_3px_-0.75px_rgb(0_0_0/0.12),0_0_0_1px_rgb(0_0_0/0.4)]">
                 <Asset
                   type="image"
                   src={avatarSrc}
                   alt=""
                   width={1}
                   height={1}
-                  className="absolute -inset-[1.125px] size-auto"
+                  className="absolute inset-0 size-auto"
                 />
               </span>
               <span className="flex min-w-0 flex-col">
