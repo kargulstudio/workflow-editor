@@ -8,7 +8,7 @@ export default function Editor() {
       className="relative z-0 flex h-dvh min-h-[560px] bg-[#0c0c0f]"
     >
       <EditorApp
-        avatarSrc={inlineAsset("/assets/images/_common/avatar.avif")}
+        avatarSrc={inlineAsset("/assets/images/_common/avatar.svg")}
         textureSrc="/assets/images/home/editor/overview/card-texture.avif"
       />
     </section>

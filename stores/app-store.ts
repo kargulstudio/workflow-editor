@@ -49,7 +49,7 @@ type AppState = {
 };
 
 export const DEFAULT_SETTINGS: AutomationSettings = {
-  senderName: "Azhara from Buzzing",
+  senderName: "Marcel from Buzzing",
   replyTo: "hello@buzzing.email",
   quietHours: true,
   quietFrom: "21:00",
@@ -78,7 +78,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   automationId: "buzzing",
   automations: seedAutomations(Date.now()),
   settings: {},
-  sidebarOpen: true,
+  sidebarOpen: false,
   renameRequest: 0,
 
   openScreen: (screen) => set({ screen }),

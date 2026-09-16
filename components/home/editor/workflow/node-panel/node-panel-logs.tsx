@@ -76,17 +76,18 @@ export default function NodePanelLogs({ node }: NodePanelLogsProps) {
           ))}
         </ol>
       ) : (
-        <div className="flex flex-col items-center gap-3 rounded-[12px] bg-black/20 px-6 py-8 text-center shadow-[0_0_0_1px_rgb(0_0_0/0.16),inset_0_0_0_1px_rgb(255_255_255/0.04)]">
+        <div className="flex flex-col items-center rounded-[12px] bg-black/20 px-6 py-9 text-center shadow-[0_0_0_1px_rgb(0_0_0/0.16),inset_0_0_0_1px_rgb(255_255_255/0.04)]">
           <span className="text-[14px] leading-5 font-[550] text-white">
             No logs yet
           </span>
-          <span className="max-w-[26em] text-[13px] leading-5 text-white/50">
+          <span className="mt-1.5 max-w-[24em] text-[13px] leading-5 text-balance text-white/50">
             Send a test subscriber through the workflow to see what each step
             does.
           </span>
           <Button
             variant="accent"
             size="field"
+            className="mt-5"
             disabled={running}
             onClick={() => startRun()}
           >

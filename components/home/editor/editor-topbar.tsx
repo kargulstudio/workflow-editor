@@ -61,7 +61,7 @@ function AccountActions({ avatarSrc }: EditorTopbarProps) {
         className="hidden md:inline-flex"
         onClick={() => {
           navigator.clipboard
-            ?.writeText("https://buzzing.email/r/azharadev")
+            ?.writeText("https://buzzing.email/r/marcelkargul")
             .catch(() => {});
           toast.success("Referral link copied", {
             description: "Earn a free month for every writer who joins.",
@@ -124,8 +124,8 @@ export default function EditorTopbar({ avatarSrc }: EditorTopbarProps) {
         <Button
           variant="ghost"
           size="icon"
-          aria-label={sidebarOpen ? "Hide sidebar" : "Show sidebar"}
-          aria-pressed={!sidebarOpen}
+          aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+          aria-pressed={sidebarOpen}
           onClick={toggleSidebar}
           className="hidden sm:inline-flex"
         >

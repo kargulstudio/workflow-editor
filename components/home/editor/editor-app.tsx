@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { Toaster } from "@/components/_ui/shadcn/sonner";
 import { TooltipProvider } from "@/components/_ui/shadcn/tooltip";
 import { useAppStore } from "@/stores/app-store";
@@ -24,6 +25,15 @@ export default function EditorApp({ avatarSrc, textureSrc }: EditorAppProps) {
   const screen = useAppStore((state) => state.screen);
   const tab = useAppStore((state) => state.tab);
   const automationId = useAppStore((state) => state.automationId);
+  const automationName = useAppStore(
+    (state) =>
+      state.automations.find((item) => item.id === state.automationId)?.name,
+  );
+
+  useEffect(() => {
+    if (!automationName) return;
+    document.title = `Workflow - ${automationName}`;
+  }, [automationName]);
 
   return (
     <TooltipProvider>

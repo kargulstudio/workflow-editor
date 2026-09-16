@@ -1,6 +1,6 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactElement } from "react";
 import { toast } from "sonner";
 import Button from "@/components/_ui/button";
 import {
@@ -27,6 +27,30 @@ const items: { label: string; Icon: typeof DashboardIcon; screen?: Screen }[] =
     { label: "Docs", Icon: MenuBookIcon },
   ];
 
+const label =
+  "ease-power3-out w-0 overflow-hidden text-left text-[14px] leading-5 font-medium whitespace-nowrap opacity-0 transition-opacity duration-150 group-data-open/rail:w-auto group-data-open/rail:opacity-100";
+
+const row =
+  "group-data-open/rail:w-full group-data-open/rail:justify-start group-data-open/rail:gap-3 group-data-open/rail:px-2.5";
+
+function RailTooltip({
+  title,
+  expanded,
+  children,
+}: {
+  title: string;
+  expanded: boolean;
+  children: ReactElement;
+}) {
+  if (expanded) return children;
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>{children}</TooltipTrigger>
+      <TooltipContent side="right">{title}</TooltipContent>
+    </Tooltip>
+  );
+}
+
 export default function EditorSidebar() {
   const screen = useAppStore((state) => state.screen);
   const sidebarOpen = useAppStore((state) => state.sidebarOpen);
@@ -39,29 +63,38 @@ export default function EditorSidebar() {
   return (
     <div
       data-open={sidebarOpen || undefined}
-      inert={!sidebarOpen}
-      className="ease-smooth-in-out hidden w-0 shrink-0 overflow-hidden transition-[width] duration-300 data-open:w-[70px] motion-reduce:transition-none sm:block"
+      className="ease-smooth-in-out group/rail hidden w-[70px] shrink-0 overflow-hidden transition-[width] duration-300 data-open:w-[236px] motion-reduce:transition-none sm:block"
     >
       <nav
         aria-label="Primary"
-        className="flex h-full w-[70px] flex-col items-center gap-8 px-4 py-5"
+        className="flex h-full w-[236px] flex-col items-center gap-8 px-4 py-5 group-data-open/rail:items-stretch"
       >
-        <LogoIcon aria-label="Buzzing" role="img" className="size-8 shrink-0" />
+        <span className="flex h-8 shrink-0 items-center gap-3">
+          <LogoIcon
+            aria-label="Buzzing"
+            role="img"
+            className="size-8 shrink-0"
+          />
+          <span
+            className={`${label} text-[15px] font-[550] tracking-[-0.01em] text-white`}
+          >
+            Buzzing
+          </span>
+        </span>
 
-        <div className="flex min-h-0 flex-1 flex-col items-center gap-5">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="round"
-                size="icon-lg"
-                aria-label="Create automation"
-                onClick={createAutomation}
-              >
-                <PlusIcon aria-hidden className="size-[15px]" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="right">New automation</TooltipContent>
-          </Tooltip>
+        <div className="flex min-h-0 flex-1 flex-col items-center gap-5 group-data-open/rail:items-stretch">
+          <RailTooltip title="New automation" expanded={sidebarOpen}>
+            <Button
+              variant="round"
+              size="icon-lg"
+              aria-label="Create automation"
+              onClick={createAutomation}
+              className={`${row} group-data-open/rail:rounded-[12px]`}
+            >
+              <PlusIcon aria-hidden className="size-[15px] shrink-0" />
+              <span className={label}>New automation</span>
+            </Button>
+          </RailTooltip>
 
           <ul
             style={{ "--nav-index": active } as CSSProperties}
@@ -71,50 +104,48 @@ export default function EditorSidebar() {
               aria-hidden
               className="ease-smooth-in-out absolute top-2 left-[-17px] h-5 w-0.5 translate-y-[calc(var(--nav-index)*46px)] rounded-r-[4px] bg-white shadow-[2px_0_8px_1px_rgb(255_255_255/0.25)] transition-transform duration-300 motion-reduce:transition-none"
             />
-            {items.map(({ label, Icon, screen: target }, index) => (
-              <li key={label}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="nav"
-                      size="icon-lg"
-                      aria-label={label}
-                      aria-current={active === index ? "page" : undefined}
-                      onClick={() => {
-                        if (target) openScreen(target);
-                        else
-                          toast(`${label} is coming soon`, {
-                            description:
-                              "We’re polishing it for the next release.",
-                          });
-                      }}
-                    >
-                      <Icon aria-hidden className="size-5" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent side="right">{label}</TooltipContent>
-                </Tooltip>
+            {items.map(({ label: title, Icon, screen: target }, index) => (
+              <li key={title} className="flex">
+                <RailTooltip title={title} expanded={sidebarOpen}>
+                  <Button
+                    variant="nav"
+                    size="icon-lg"
+                    aria-label={title}
+                    aria-current={active === index ? "page" : undefined}
+                    className={row}
+                    onClick={() => {
+                      if (target) openScreen(target);
+                      else
+                        toast(`${title} is coming soon`, {
+                          description:
+                            "We’re polishing it for the next release.",
+                        });
+                    }}
+                  >
+                    <Icon aria-hidden className="size-5 shrink-0" />
+                    <span className={label}>{title}</span>
+                  </Button>
+                </RailTooltip>
               </li>
             ))}
           </ul>
         </div>
 
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="Automation settings"
-              onClick={() => openAutomation(automationId, "settings")}
-            >
-              <CogIcon
-                aria-hidden
-                className="ease-power3-in-out size-5 text-white/32 transition-colors duration-150 group-hover:text-white/60"
-              />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="right">Settings</TooltipContent>
-        </Tooltip>
+        <RailTooltip title="Settings" expanded={sidebarOpen}>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Automation settings"
+            className={`${row} group-data-open/rail:h-9`}
+            onClick={() => openAutomation(automationId, "settings")}
+          >
+            <CogIcon
+              aria-hidden
+              className="ease-power3-in-out size-5 shrink-0 text-white/32 transition-colors duration-150 group-hover:text-white/60"
+            />
+            <span className={`${label} text-white/50`}>Settings</span>
+          </Button>
+        </RailTooltip>
       </nav>
     </div>
   );

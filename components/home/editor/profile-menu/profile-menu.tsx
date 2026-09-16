@@ -49,7 +49,7 @@ export default function ProfileMenu({ avatarSrc }: ProfileMenuProps) {
       Icon: PersonalInfoIcon,
       onSelect: () =>
         toast("Personal info", {
-          description: "Azhara Dev · azhara@buzzing.email",
+          description: "Marcel Kargul · marcel@buzzing.email",
         }),
     },
     {
@@ -73,7 +73,7 @@ export default function ProfileMenu({ avatarSrc }: ProfileMenuProps) {
       Icon: UsersIcon,
       onSelect: () =>
         toast("3 people have access", {
-          description: "Azhara (owner), Leo (editor), Priya (viewer).",
+          description: "Marcel (owner), Leo (editor), Priya (viewer).",
         }),
     },
     {
@@ -123,7 +123,7 @@ export default function ProfileMenu({ avatarSrc }: ProfileMenuProps) {
               </span>
               <span className="flex min-w-0 flex-col">
                 <span className="text-[14px] leading-5 font-[550] text-white">
-                  @azharadev
+                  @marcelkargul
                 </span>
                 <span className="text-[12px] leading-4 font-normal text-white/60">
                   Personal
@@ -142,14 +142,14 @@ export default function ProfileMenu({ avatarSrc }: ProfileMenuProps) {
               <div className="flex flex-col gap-0.5">
                 <DropdownMenuItem
                   className="h-9 justify-between gap-3 rounded-[8px] px-2 data-[highlighted]:bg-white/5"
-                  onSelect={() => toast("You’re already in Azhara’s workspace")}
+                  onSelect={() => toast("You’re already in Marcel’s workspace")}
                 >
                   <span className="flex items-center gap-3">
                     <span className="relative flex size-6 items-center justify-center rounded-[6px] bg-[#e471cd] text-[12px] leading-3 font-medium tracking-[-0.18px] text-white shadow-[0_1px_2px_-0.5px_rgb(0_0_0/0.08),0_0_0_0.5px_rgb(0_0_0/0.12),inset_0_0.5px_0_rgb(255_255_255/0.04)]">
-                      A
+                      M
                     </span>
                     <span className="text-[14px] leading-5 font-[550] text-white">
-                      Azhara’s workspace
+                      Marcel’s workspace
                     </span>
                   </span>
                   <span className="text-[12px] leading-4 font-normal text-white/60">
