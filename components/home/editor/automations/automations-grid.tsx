@@ -58,7 +58,7 @@ export default function AutomationsGrid({
                 className="flex flex-wrap items-center gap-1"
                 aria-label={`${steps.length} steps`}
               >
-                {steps.slice(0, 8).map((step) => {
+                {steps.slice(0, 6).map((step) => {
                   const action = ACTIONS[step.kind];
                   return (
                     <span
@@ -73,9 +73,9 @@ export default function AutomationsGrid({
                     </span>
                   );
                 })}
-                {steps.length > 8 && (
-                  <span className="px-1 text-[12px] font-[550] text-white/40">
-                    +{steps.length - 8}
+                {steps.length > 6 && (
+                  <span className="flex h-7 items-center rounded-[8px] bg-white/4 px-2 text-[12px] leading-4 font-[550] text-white/50 tabular-nums">
+                    +{steps.length - 6}
                   </span>
                 )}
               </span>
